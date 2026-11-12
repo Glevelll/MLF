@@ -1,0 +1,510 @@
+{"term": "Машинное обучение", "definition": "Построение моделей, извлекающих закономерности из данных для прогноза на новых объектах.", "category": "ml"}
+{"term": "Обучение с учителем", "definition": "Обучение по размеченным примерам (признаки → известная целевая переменная).", "category": "ml"}
+{"term": "Классификация", "definition": "Задача предсказания категории; здесь — студент в группе риска (1) или нет (0).", "category": "ml"}
+{"term": "Регрессия", "definition": "Задача предсказания непрерывной величины, например итоговой оценки по курсу.", "category": "ml"}
+{"term": "Целевая переменная", "definition": "Величина, которую прогнозирует модель (G3, final_score, dropout).", "category": "ml"}
+{"term": "Признак", "definition": "Входная переменная модели: посещаемость, баллы тестов, время в LMS, демография.", "category": "ml"}
+{"term": "Кросс-валидация", "definition": "Оценка модели на K непересекающихся фолдах; каждый фолд по очереди служит тестом.", "category": "ml"}
+{"term": "Стратифицированная кросс-валидация", "definition": "K-fold с сохранением пропорций классов в каждом фолде; обязательна при дисбалансе.", "category": "ml"}
+{"term": "Out-of-fold прогноз", "definition": "Прогноз для объекта, полученный моделью, не видевшей его при обучении (OOF).", "category": "ml"}
+{"term": "Holdout-выборка", "definition": "Отложенная тестовая часть данных, не участвующая в обучении и подборе параметров.", "category": "ml"}
+{"term": "Переобучение", "definition": "Модель запоминает шум обучающей выборки: высокое качество на train, низкое на test.", "category": "ml"}
+{"term": "Недообучение", "definition": "Модель слишком проста и не улавливает закономерности даже на обучающих данных.", "category": "ml"}
+{"term": "Утечка данных", "definition": "Использование при обучении информации, недоступной в момент прогноза (например, итоговой оценки).", "category": "ml"}
+{"term": "Утечка целевой переменной", "definition": "Признак почти дублирует цель; модель выглядит идеальной, но бесполезна на практике.", "category": "ml"}
+{"term": "Утечка препроцессинга", "definition": "Подгонка импутера/скейлера на всех данных до разбиения; устраняется Pipeline внутри CV.", "category": "ml"}
+{"term": "Импутация", "definition": "Заполнение пропусков (медианой, модой, моделью); подгоняется только на обучающем фолде.", "category": "preprocessing"}
+{"term": "One-hot encoding", "definition": "Кодирование категориального признака бинарными индикаторами по каждой категории.", "category": "preprocessing"}
+{"term": "Масштабирование признаков", "definition": "Приведение числовых признаков к сопоставимой шкале (StandardScaler: среднее 0, std 1).", "category": "preprocessing"}
+{"term": "Pipeline", "definition": "Цепочка шагов препроцессинга и модели, обучаемая как единое целое — защищает от утечек.", "category": "preprocessing"}
+{"term": "ColumnTransformer", "definition": "Разные преобразования для числовых и категориальных колонок в одном шаге.", "category": "preprocessing"}
+{"term": "Дисбаланс классов", "definition": "Неравные доли классов; для риска отчисления миноритарный класс часто 10–30%.", "category": "ml"}
+{"term": "class_weight=balanced", "definition": "Веса классов обратно пропорциональны частоте; повышает recall миноритарного класса.", "category": "ml"}
+{"term": "Порог классификации", "definition": "Вероятность, начиная с которой студент относится к группе риска; подбирается под задачу.", "category": "ml"}
+{"term": "Калибровка вероятностей", "definition": "Согласованность предсказанных вероятностей с наблюдаемыми частотами событий.", "category": "metrics"}
+{"term": "Feature engineering", "definition": "Создание новых признаков (динамика оценок, агрегаты активности) для улучшения модели.", "category": "features"}
+{"term": "Важность признаков", "definition": "Вклад признака в качество модели; здесь — permutation importance на holdout.", "category": "interpretability"}
+{"term": "Permutation importance", "definition": "Падение метрики при случайном перемешивании признака; модель-агностичная оценка важности.", "category": "interpretability"}
+{"term": "Локальное объяснение", "definition": "Объяснение конкретного прогноза: какие факторы повысили риск этого студента.", "category": "interpretability"}
+{"term": "Occlusion-объяснение", "definition": "Замена значения признака на типичное и измерение изменения прогноза.", "category": "interpretability"}
+{"term": "SHAP", "definition": "Аддитивное разложение прогноза по признакам на основе значений Шепли.", "category": "interpretability"}
+{"term": "Интерпретируемость", "definition": "Способность объяснить решение модели человеку; критична для решений об отчислении.", "category": "interpretability"}
+{"term": "Чёрный ящик", "definition": "Модель, внутренняя логика которой непрозрачна (глубокие ансамбли, нейросети).", "category": "interpretability"}
+{"term": "Гиперпараметр", "definition": "Параметр, задаваемый до обучения (глубина дерева, сила регуляризации).", "category": "ml"}
+{"term": "Регуляризация", "definition": "Штраф за сложность модели, снижающий переобучение (L1, L2, ElasticNet).", "category": "ml"}
+{"term": "L1-регуляризация", "definition": "Штраф по сумме модулей коэффициентов; обнуляет неважные признаки.", "category": "ml"}
+{"term": "L2-регуляризация", "definition": "Штраф по сумме квадратов коэффициентов; сглаживает веса при мультиколлинеарности.", "category": "ml"}
+{"term": "ElasticNet", "definition": "Комбинация L1 и L2; параметр l1_ratio задаёт долю L1.", "category": "ml"}
+{"term": "Мультиколлинеарность", "definition": "Сильная корреляция признаков (G1 и G2); делает коэффициенты линейной модели нестабильными.", "category": "ml"}
+{"term": "Ансамбль", "definition": "Комбинация нескольких моделей (бэггинг, бустинг) для повышения точности.", "category": "models"}
+{"term": "Бэггинг", "definition": "Обучение моделей на бутстрап-выборках и усреднение их прогнозов.", "category": "models"}
+{"term": "Бустинг", "definition": "Последовательное обучение моделей, исправляющих ошибки предыдущих.", "category": "models"}
+{"term": "Мета-признаки датасета", "definition": "Статистики набора данных (размер, доля пропусков, корреляции) для поиска похожих кейсов.", "category": "rag"}
+{"term": "Learning analytics", "definition": "Анализ данных об обучении для понимания и улучшения учебного процесса.", "category": "education"}
+{"term": "Educational Data Mining", "definition": "Методы анализа данных образовательных систем: прогноз успеваемости, кластеризация студентов.", "category": "education"}
+{"term": "Система раннего предупреждения", "definition": "Система, выявляющая студентов группы риска до итогового контроля.", "category": "education"}
+{"term": "Группа риска", "definition": "Студенты с высокой вероятностью неуспеваемости или отчисления.", "category": "education"}
+{"term": "Отчисление", "definition": "Прекращение обучения студента; целевое событие для бинарной классификации.", "category": "education"}
+{"term": "Неуспеваемость", "definition": "Итоговая оценка ниже порога сдачи (в UCI: G3 < 10 из 20).", "category": "education"}
+{"term": "Траектория обучения", "definition": "Последовательность учебных событий студента: оценки, активность, сдачи заданий.", "category": "education"}
+{"term": "LMS", "definition": "Learning Management System — система управления обучением (Moodle, Canvas); источник логов активности.", "category": "education"}
+{"term": "Промежуточная аттестация", "definition": "Оценки за периоды/модули курса (G1, G2), сильные предикторы итоговой оценки.", "category": "education"}
+{"term": "Академическая задолженность", "definition": "Несданная дисциплина в прошлом; один из сильнейших предикторов риска.", "category": "education"}
+{"term": "Тьюторство", "definition": "Индивидуальное сопровождение студента наставником; типовое вмешательство для группы риска.", "category": "education"}
+{"term": "Педагогическое вмешательство", "definition": "Действие преподавателя/куратора для снижения риска: консультация, план, поддержка.", "category": "education"}
+{"term": "OULAD", "definition": "Open University Learning Analytics Dataset: 32 тыс. студентов, демография, оценки, клики в VLE.", "category": "data"}
+{"term": "UCI Student Performance", "definition": "Набор Cortez & Silva (2008): 1044 студента, 33 признака, оценки G1–G3 по математике и португальскому.", "category": "data"}
+{"term": "Синтетические данные", "definition": "Сгенерированные данные с известной структурой зависимостей; поощряются для базы знаний.", "category": "data"}
+{"term": "Мультиагентная система", "definition": "Набор специализированных агентов, совместно решающих задачу под управлением супервизора.", "category": "agents"}
+{"term": "Агент", "definition": "Компонент с ролью, входом State и действием (анализ, выбор модели, проверка, критика).", "category": "agents"}
+{"term": "Supervisor", "definition": "Агент-оркестратор: управляет циклом, лимитом итераций, HITL и Reasoning Log.", "category": "agents"}
+{"term": "DataAnalyst", "definition": "Агент подготовки данных: типы, импутация, кодирование, баланс классов, EDA.", "category": "agents"}
+{"term": "ModelSelector", "definition": "Агент выбора модели через Tool Calling с учётом похожих кейсов из RAG.", "category": "agents"}
+{"term": "Validator", "definition": "Агент формальной проверки: NaN, утечки, переобучение, калибровка, остатки.", "category": "agents"}
+{"term": "Critic", "definition": "LLM-as-a-Judge: оценивает интерпретируемость и пригодность модели для решений.", "category": "agents"}
+{"term": "Editor", "definition": "Агент правок: добавляет признаки, меняет порог, гиперпараметры или модель.", "category": "agents"}
+{"term": "State", "definition": "Строго типизированное состояние задачи; тяжёлые данные передаются ссылками (пути к файлам).", "category": "agents"}
+{"term": "Reasoning Log", "definition": "Иерархическая трассировка шагов агентов с parent_id: кто, какой инструмент, вход/выход, время, токены.", "category": "agents"}
+{"term": "Span", "definition": "Узел трассировки с идентификатором, родителем, длительностью и статусом.", "category": "agents"}
+{"term": "Human-in-the-Loop", "definition": "Привлечение человека к решению в сложных случаях: подтверждение риска, выбор модели.", "category": "agents"}
+{"term": "Active learning", "definition": "Отбор наиболее информативных примеров для разметки человеком и пополнения базы.", "category": "agents"}
+{"term": "Tool Calling", "definition": "Механизм, при котором LLM возвращает имя инструмента и JSON-аргументы вместо кода.", "category": "llm"}
+{"term": "Function Calling", "definition": "Синоним Tool Calling в API OpenAI-совместимых моделей.", "category": "llm"}
+{"term": "Реестр инструментов", "definition": "Каталог функций с JSON-схемами аргументов, доступных агентам.", "category": "llm"}
+{"term": "JSON Schema", "definition": "Формальное описание структуры JSON; используется для валидации аргументов инструментов.", "category": "llm"}
+{"term": "Structured Output", "definition": "Генерация ответа LLM строго по заданной схеме.", "category": "llm"}
+{"term": "Fallback", "definition": "Запасной путь при сбое: парсинг текста, повторный запрос, правило по умолчанию.", "category": "llm"}
+{"term": "LLM-as-a-Judge", "definition": "Использование языковой модели для оценки качества решений других компонентов.", "category": "llm"}
+{"term": "Few-shot промптинг", "definition": "Включение в промпт нескольких примеров вход→выход для задания формата.", "category": "llm"}
+{"term": "Галлюцинация", "definition": "Правдоподобный, но неверный вывод LLM; минимизируется Tool Calling и валидацией.", "category": "llm"}
+{"term": "Токен", "definition": "Единица текста для LLM; число токенов определяет стоимость и задержку.", "category": "llm"}
+{"term": "tiktoken", "definition": "Токенизатор OpenAI; используется для оценки числа токенов локальных моделей.", "category": "llm"}
+{"term": "Ollama", "definition": "Локальный сервер LLM с HTTP API и поддержкой tool calling (Qwen2.5, Llama 3).", "category": "llm"}
+{"term": "vLLM", "definition": "Высокопроизводительный сервер инференса LLM с OpenAI-совместимым API.", "category": "llm"}
+{"term": "Qwen2.5", "definition": "Семейство открытых LLM с хорошей поддержкой function calling (7B/14B).", "category": "llm"}
+{"term": "Температура", "definition": "Параметр случайности генерации; для Tool Calling обычно 0.", "category": "llm"}
+{"term": "Кэширование LLM", "definition": "Повторное использование ответа на идентичный запрос; экономит токены и время.", "category": "llm"}
+{"term": "RAG", "definition": "Retrieval-Augmented Generation: поиск релевантных документов и передача их в контекст LLM.", "category": "rag"}
+{"term": "Agentic RAG", "definition": "RAG, где агент сам решает, что и как искать, и использует результаты для действий.", "category": "rag"}
+{"term": "BM25", "definition": "Лексическая функция ранжирования на основе TF-IDF с насыщением частоты и нормировкой длины.", "category": "rag"}
+{"term": "Векторный поиск", "definition": "Поиск ближайших соседей по косинусной близости эмбеддингов.", "category": "rag"}
+{"term": "Гибридный поиск", "definition": "Комбинация лексического (BM25) и векторного поиска.", "category": "rag"}
+{"term": "Reciprocal Rank Fusion", "definition": "Объединение ранжирований: score = Σ 1/(k + rank); устойчиво к разным шкалам скоров.", "category": "rag"}
+{"term": "Contextual Retrieval", "definition": "Добавление к чанку краткого контекста документа перед индексацией.", "category": "rag"}
+{"term": "Эмбеддинг", "definition": "Плотный вектор, представляющий объект так, что похожие объекты близки.", "category": "rag"}
+{"term": "LSA", "definition": "Латентно-семантический анализ: SVD матрицы TF-IDF для получения плотных текстовых векторов.", "category": "rag"}
+{"term": "TF-IDF", "definition": "Вес термина: частота в документе × обратная документная частота.", "category": "rag"}
+{"term": "Qdrant", "definition": "Векторная БД с фильтрами по payload; используется в продакшене.", "category": "rag"}
+{"term": "FAISS", "definition": "Библиотека быстрого поиска ближайших соседей; альтернатива для локальной разработки.", "category": "rag"}
+{"term": "Фильтрация по метаданным", "definition": "Ограничение поиска кейсами нужного типа задачи, размера, доли пропусков.", "category": "rag"}
+{"term": "PCA", "definition": "Метод главных компонент: линейное снижение размерности с максимальным сохранением дисперсии.", "category": "rag"}
+{"term": "UMAP", "definition": "Нелинейное снижение размерности, сохраняющее локальную структуру.", "category": "rag"}
+{"term": "База знаний", "definition": "Коллекция кейсов (профиль → исход + рекомендации) и кейсов выбора модели для RAG.", "category": "rag"}
+{"term": "Celery", "definition": "Распределённая очередь задач Python; выполняет прогнозы и оценку в фоне.", "category": "infra"}
+{"term": "Redis", "definition": "In-memory хранилище; брокер Celery и кэш.", "category": "infra"}
+{"term": "FastAPI", "definition": "Асинхронный веб-фреймворк Python с автоматической OpenAPI-документацией.", "category": "infra"}
+{"term": "HTTP 202 Accepted", "definition": "Ответ «принято к обработке»; клиент опрашивает статус задачи по task_id.", "category": "infra"}
+{"term": "JWT", "definition": "JSON Web Token: подписанный токен доступа с ролью пользователя.", "category": "infra"}
+{"term": "bcrypt", "definition": "Адаптивная функция хеширования паролей с солью.", "category": "infra"}
+{"term": "Observability", "definition": "Наблюдаемость системы: логи, трассировки, метрики LLM-вызовов.", "category": "infra"}
+{"term": "Docker Compose", "definition": "Описание и запуск многоконтейнерного окружения одной командой.", "category": "infra"}
+{"term": "Gradio", "definition": "Фреймворк UI для ML-приложений; поддерживает асинхронность и интерактивные компоненты.", "category": "infra"}
+{"term": "Early stopping", "definition": "Остановка бустинга, когда качество на валидации перестаёт расти.", "category": "models"}
+{"term": "Learning rate", "definition": "Шаг бустинга: меньше шаг — больше деревьев и меньше переобучение.", "category": "hyperparameters"}
+{"term": "Глубина дерева", "definition": "Максимальная глубина; ограничивает сложность и взаимодействия признаков.", "category": "hyperparameters"}
+{"term": "Бутстрап", "definition": "Выборка с возвращением того же размера; основа бэггинга и доверительных интервалов.", "category": "statistics"}
+{"term": "p-value", "definition": "Вероятность получить наблюдаемое или более экстремальное отличие при верной H0.", "category": "statistics"}
+{"term": "Уровень значимости", "definition": "Порог α (обычно 0.05) для отклонения нулевой гипотезы.", "category": "statistics"}
+{"term": "Нулевая гипотеза", "definition": "Предположение об отсутствии различий между моделями/режимами.", "category": "statistics"}
+{"term": "Размер эффекта", "definition": "Величина различия, не зависящая от размера выборки (например, средний прирост ROC-AUC).", "category": "statistics"}
+{"term": "Матрица ошибок", "definition": "Таблица TP/FP/TN/FN для бинарного классификатора.", "category": "metrics"}
+{"term": "ROC-кривая", "definition": "Зависимость TPR от FPR при изменении порога.", "category": "metrics"}
+{"term": "Accuracy", "definition": "Метрика: доля верных ответов. Диапазон 0..1.", "category": "metrics"}
+{"term": "Accuracy: формула", "definition": "Accuracy = (TP+TN)/N.", "category": "metrics"}
+{"term": "Accuracy: подводные камни", "definition": "Accuracy: вводит в заблуждение при дисбалансе: 85% «нет риска» дают 0.85 без модели.", "category": "metrics"}
+{"term": "Accuracy: применение в образовательной аналитике", "definition": "Accuracy: для риска отчисления вторична по отношению к recall и ROC-AUC.", "category": "metrics"}
+{"term": "Precision", "definition": "Метрика: доля истинно рискованных среди помеченных моделью. Диапазон 0..1.", "category": "metrics"}
+{"term": "Precision: формула", "definition": "Precision = TP/(TP+FP).", "category": "metrics"}
+{"term": "Precision: подводные камни", "definition": "Precision: растёт при повышении порога ценой recall.", "category": "metrics"}
+{"term": "Precision: применение в образовательной аналитике", "definition": "Precision: важна, если ресурс вмешательств ограничен.", "category": "metrics"}
+{"term": "Recall", "definition": "Метрика: доля найденных студентов группы риска. Диапазон 0..1.", "category": "metrics"}
+{"term": "Recall: формула", "definition": "Recall = TP/(TP+FN).", "category": "metrics"}
+{"term": "Recall: подводные камни", "definition": "Recall: легко максимизировать, помечая всех.", "category": "metrics"}
+{"term": "Recall: применение в образовательной аналитике", "definition": "Recall: ключевая метрика системы раннего предупреждения: пропуск рискового студента дорог.", "category": "metrics"}
+{"term": "F1", "definition": "Метрика: гармоническое среднее precision и recall. Диапазон 0..1.", "category": "metrics"}
+{"term": "F1: формула", "definition": "F1 = 2PR/(P+R).", "category": "metrics"}
+{"term": "F1: подводные камни", "definition": "F1: зависит от порога; не учитывает TN.", "category": "metrics"}
+{"term": "F1: применение в образовательной аналитике", "definition": "F1: используется для подбора порога группы риска.", "category": "metrics"}
+{"term": "ROC-AUC", "definition": "Метрика: вероятность, что случайный рисковый студент получит больший скор, чем нерисковый. Диапазон 0.5..1.", "category": "metrics"}
+{"term": "ROC-AUC: формула", "definition": "ROC-AUC = площадь под ROC-кривой.", "category": "metrics"}
+{"term": "ROC-AUC: подводные камни", "definition": "ROC-AUC: оптимистична при сильном дисбалансе; не оценивает калибровку.", "category": "metrics"}
+{"term": "ROC-AUC: применение в образовательной аналитике", "definition": "ROC-AUC: основная метрика выбора модели классификации.", "category": "metrics"}
+{"term": "PR-AUC", "definition": "Метрика: площадь под кривой precision-recall. Диапазон доля положительных..1.", "category": "metrics"}
+{"term": "PR-AUC: формула", "definition": "PR-AUC = ∫ P dR.", "category": "metrics"}
+{"term": "PR-AUC: подводные камни", "definition": "PR-AUC: зависит от доли положительного класса.", "category": "metrics"}
+{"term": "PR-AUC: применение в образовательной аналитике", "definition": "PR-AUC: информативнее ROC-AUC при редком отчислении.", "category": "metrics"}
+{"term": "Brier score", "definition": "Метрика: среднеквадратичная ошибка вероятностей. Диапазон 0..1.", "category": "metrics"}
+{"term": "Brier score: формула", "definition": "Brier score = mean((p − y)²).", "category": "metrics"}
+{"term": "Brier score: подводные камни", "definition": "Brier score: смешивает калибровку и разделимость.", "category": "metrics"}
+{"term": "Brier score: применение в образовательной аналитике", "definition": "Brier score: оценивает пригодность вероятностей для приоритизации студентов.", "category": "metrics"}
+{"term": "ECE", "definition": "Метрика: ожидаемая ошибка калибровки. Диапазон 0..1.", "category": "metrics"}
+{"term": "ECE: формула", "definition": "ECE = Σ |acc_b − conf_b|·n_b/N.", "category": "metrics"}
+{"term": "ECE: подводные камни", "definition": "ECE: зависит от числа бинов.", "category": "metrics"}
+{"term": "ECE: применение в образовательной аналитике", "definition": "ECE: порог 0.1 используется Validator как предупреждение.", "category": "metrics"}
+{"term": "Log loss", "definition": "Метрика: перекрёстная энтропия. Диапазон 0..∞.", "category": "metrics"}
+{"term": "Log loss: формула", "definition": "Log loss = −mean(y log p + (1−y) log(1−p)).", "category": "metrics"}
+{"term": "Log loss: подводные камни", "definition": "Log loss: сильно штрафует уверенные ошибки.", "category": "metrics"}
+{"term": "Log loss: применение в образовательной аналитике", "definition": "Log loss: чувствительна к плохой калибровке.", "category": "metrics"}
+{"term": "MAE", "definition": "Метрика: средняя абсолютная ошибка. Диапазон 0..∞.", "category": "metrics"}
+{"term": "MAE: формула", "definition": "MAE = mean|y − ŷ|.", "category": "metrics"}
+{"term": "MAE: подводные камни", "definition": "MAE: не различает направление ошибки.", "category": "metrics"}
+{"term": "MAE: применение в образовательной аналитике", "definition": "MAE: интерпретируется в баллах оценки.", "category": "metrics"}
+{"term": "RMSE", "definition": "Метрика: корень среднеквадратичной ошибки. Диапазон 0..∞.", "category": "metrics"}
+{"term": "RMSE: формула", "definition": "RMSE = sqrt(mean((y − ŷ)²)).", "category": "metrics"}
+{"term": "RMSE: подводные камни", "definition": "RMSE: чувствительна к выбросам (нулевые G3).", "category": "metrics"}
+{"term": "RMSE: применение в образовательной аналитике", "definition": "RMSE: штрафует крупные промахи в оценке.", "category": "metrics"}
+{"term": "R²", "definition": "Метрика: доля объяснённой дисперсии. Диапазон −∞..1.", "category": "metrics"}
+{"term": "R²: формула", "definition": "R² = 1 − SS_res/SS_tot.", "category": "metrics"}
+{"term": "R²: подводные камни", "definition": "R²: растёт при добавлении признаков на train.", "category": "metrics"}
+{"term": "R²: применение в образовательной аналитике", "definition": "R²: основная метрика регрессии итоговой оценки.", "category": "metrics"}
+{"term": "MAPE", "definition": "Метрика: средняя абсолютная процентная ошибка. Диапазон 0..∞.", "category": "metrics"}
+{"term": "MAPE: формула", "definition": "MAPE = mean|(y − ŷ)/y|·100.", "category": "metrics"}
+{"term": "MAPE: подводные камни", "definition": "MAPE: не определена при y=0 (оценка 0).", "category": "metrics"}
+{"term": "MAPE: применение в образовательной аналитике", "definition": "MAPE: в оценках студентов используется осторожно.", "category": "metrics"}
+{"term": "WAPE", "definition": "Метрика: взвешенная абсолютная процентная ошибка. Диапазон 0..∞.", "category": "metrics"}
+{"term": "WAPE: формула", "definition": "WAPE = Σ|y − ŷ|/Σ|y|·100.", "category": "metrics"}
+{"term": "WAPE: подводные камни", "definition": "WAPE: устойчивее MAPE к нулям.", "category": "metrics"}
+{"term": "WAPE: применение в образовательной аналитике", "definition": "WAPE: сопоставима между курсами.", "category": "metrics"}
+{"term": "MASE", "definition": "Метрика: MAE, нормированная на наивный прогноз. Диапазон 0..∞.", "category": "metrics"}
+{"term": "MASE: формула", "definition": "MASE = MAE / MAE_naive.", "category": "metrics"}
+{"term": "MASE: подводные камни", "definition": "MASE: требует обучающей истории.", "category": "metrics"}
+{"term": "MASE: применение в образовательной аналитике", "definition": "MASE: для временных рядов.", "category": "metrics"}
+{"term": "Логистическая регрессия", "definition": "Модель: линейная модель логита вероятности.", "category": "models"}
+{"term": "Логистическая регрессия: когда применять", "definition": "Логистическая регрессия подходит, когда: малые выборки, нужна объяснимость коэффициентов.", "category": "models"}
+{"term": "Логистическая регрессия: преимущества", "definition": "Логистическая регрессия: интерпретируемость, калиброванные вероятности, скорость.", "category": "models"}
+{"term": "Логистическая регрессия: ограничения", "definition": "Логистическая регрессия: не ловит взаимодействия без feature engineering.", "category": "models"}
+{"term": "Логистическая регрессия: ключевые гиперпараметры", "definition": "Настраивают: C (сила регуляризации), l1_ratio, class_weight.", "category": "models"}
+{"term": "Ridge-регрессия", "definition": "Модель: линейная регрессия с L2-штрафом.", "category": "models"}
+{"term": "Ridge-регрессия: когда применять", "definition": "Ridge-регрессия подходит, когда: прогноз оценки при коррелированных признаках.", "category": "models"}
+{"term": "Ridge-регрессия: преимущества", "definition": "Ridge-регрессия: устойчивость к мультиколлинеарности.", "category": "models"}
+{"term": "Ridge-регрессия: ограничения", "definition": "Ridge-регрессия: линейность.", "category": "models"}
+{"term": "Ridge-регрессия: ключевые гиперпараметры", "definition": "Настраивают: alpha.", "category": "models"}
+{"term": "Lasso", "definition": "Модель: линейная регрессия с L1-штрафом.", "category": "models"}
+{"term": "Lasso: когда применять", "definition": "Lasso подходит, когда: отбор признаков.", "category": "models"}
+{"term": "Lasso: преимущества", "definition": "Lasso: разреженность.", "category": "models"}
+{"term": "Lasso: ограничения", "definition": "Lasso: нестабилен при коррелированных признаках.", "category": "models"}
+{"term": "Lasso: ключевые гиперпараметры", "definition": "Настраивают: alpha.", "category": "models"}
+{"term": "Случайный лес", "definition": "Модель: ансамбль деревьев на бутстрап-выборках.", "category": "models"}
+{"term": "Случайный лес: когда применять", "definition": "Случайный лес подходит, когда: нелинейности, смешанные типы признаков.", "category": "models"}
+{"term": "Случайный лес: преимущества", "definition": "Случайный лес: устойчивость, мало настроек.", "category": "models"}
+{"term": "Случайный лес: ограничения", "definition": "Случайный лес: хуже калибровка, менее интерпретируем.", "category": "models"}
+{"term": "Случайный лес: ключевые гиперпараметры", "definition": "Настраивают: n_estimators, max_depth, min_samples_leaf.", "category": "models"}
+{"term": "XGBoost", "definition": "Модель: градиентный бустинг деревьев с регуляризацией.", "category": "models"}
+{"term": "XGBoost: когда применять", "definition": "XGBoost подходит, когда: большие табличные данные, максимум точности.", "category": "models"}
+{"term": "XGBoost: преимущества", "definition": "XGBoost: часто лучший на таблицах.", "category": "models"}
+{"term": "XGBoost: ограничения", "definition": "XGBoost: склонен к переобучению на малых данных.", "category": "models"}
+{"term": "XGBoost: ключевые гиперпараметры", "definition": "Настраивают: learning_rate, max_depth, n_estimators, subsample.", "category": "models"}
+{"term": "LightGBM", "definition": "Модель: бустинг с листовым ростом деревьев.", "category": "models"}
+{"term": "LightGBM: когда применять", "definition": "LightGBM подходит, когда: очень большие таблицы.", "category": "models"}
+{"term": "LightGBM: преимущества", "definition": "LightGBM: скорость.", "category": "models"}
+{"term": "LightGBM: ограничения", "definition": "LightGBM: переобучение на малых данных.", "category": "models"}
+{"term": "LightGBM: ключевые гиперпараметры", "definition": "Настраивают: num_leaves, learning_rate.", "category": "models"}
+{"term": "CatBoost", "definition": "Модель: бустинг с упорядоченным кодированием категорий.", "category": "models"}
+{"term": "CatBoost: когда применять", "definition": "CatBoost подходит, когда: много категориальных признаков.", "category": "models"}
+{"term": "CatBoost: преимущества", "definition": "CatBoost: обработка категорий.", "category": "models"}
+{"term": "CatBoost: ограничения", "definition": "CatBoost: медленнее обучение.", "category": "models"}
+{"term": "CatBoost: ключевые гиперпараметры", "definition": "Настраивают: depth, learning_rate, l2_leaf_reg.", "category": "models"}
+{"term": "Дерево решений", "definition": "Модель: иерархия правил «если–то».", "category": "models"}
+{"term": "Дерево решений: когда применять", "definition": "Дерево решений подходит, когда: объяснимые правила для кураторов.", "category": "models"}
+{"term": "Дерево решений: преимущества", "definition": "Дерево решений: прозрачность.", "category": "models"}
+{"term": "Дерево решений: ограничения", "definition": "Дерево решений: нестабильность.", "category": "models"}
+{"term": "Дерево решений: ключевые гиперпараметры", "definition": "Настраивают: max_depth.", "category": "models"}
+{"term": "k ближайших соседей", "definition": "Модель: прогноз по похожим объектам.", "category": "models"}
+{"term": "k ближайших соседей: когда применять", "definition": "k ближайших соседей подходит, когда: малые данные, прототипы студентов.", "category": "models"}
+{"term": "k ближайших соседей: преимущества", "definition": "k ближайших соседей: простота.", "category": "models"}
+{"term": "k ближайших соседей: ограничения", "definition": "k ближайших соседей: проклятие размерности.", "category": "models"}
+{"term": "k ближайших соседей: ключевые гиперпараметры", "definition": "Настраивают: n_neighbors.", "category": "models"}
+{"term": "SVM", "definition": "Модель: разделяющая гиперплоскость с максимальным зазором.", "category": "models"}
+{"term": "SVM: когда применять", "definition": "SVM подходит, когда: средние выборки.", "category": "models"}
+{"term": "SVM: преимущества", "definition": "SVM: ядровые нелинейности.", "category": "models"}
+{"term": "SVM: ограничения", "definition": "SVM: нет вероятностей «из коробки».", "category": "models"}
+{"term": "SVM: ключевые гиперпараметры", "definition": "Настраивают: C, kernel.", "category": "models"}
+{"term": "Нейронная сеть MLP", "definition": "Модель: многослойный перцептрон.", "category": "models"}
+{"term": "Нейронная сеть MLP: когда применять", "definition": "Нейронная сеть MLP подходит, когда: большие данные.", "category": "models"}
+{"term": "Нейронная сеть MLP: преимущества", "definition": "Нейронная сеть MLP: гибкость.", "category": "models"}
+{"term": "Нейронная сеть MLP: ограничения", "definition": "Нейронная сеть MLP: непрозрачность, нужна настройка.", "category": "models"}
+{"term": "Нейронная сеть MLP: ключевые гиперпараметры", "definition": "Настраивают: hidden_layer_sizes, alpha.", "category": "models"}
+{"term": "TabPFN", "definition": "Модель: табличная foundation-модель, предобученная на синтетических задачах.", "category": "models"}
+{"term": "TabPFN: когда применять", "definition": "TabPFN подходит, когда: малые таблицы (≤10k строк).", "category": "models"}
+{"term": "TabPFN: преимущества", "definition": "TabPFN: сильный бейзлайн без настройки.", "category": "models"}
+{"term": "TabPFN: ограничения", "definition": "TabPFN: ограничение на размер, требует GPU.", "category": "models"}
+{"term": "TabPFN: ключевые гиперпараметры", "definition": "Настраивают: без гиперпараметров.", "category": "models"}
+{"term": "ARIMA", "definition": "Модель: авторегрессия + интегрирование + скользящее среднее.", "category": "models"}
+{"term": "ARIMA: когда применять", "definition": "ARIMA подходит, когда: одномерные временные ряды.", "category": "models"}
+{"term": "ARIMA: преимущества", "definition": "ARIMA: классика, интерпретируемость.", "category": "models"}
+{"term": "ARIMA: ограничения", "definition": "ARIMA: линейность, стационарность.", "category": "models"}
+{"term": "ARIMA: ключевые гиперпараметры", "definition": "Настраивают: order (p,d,q).", "category": "models"}
+{"term": "ETS", "definition": "Модель: экспоненциальное сглаживание с трендом и сезонностью.", "category": "models"}
+{"term": "ETS: когда применять", "definition": "ETS подходит, когда: ряды с явной сезонностью.", "category": "models"}
+{"term": "ETS: преимущества", "definition": "ETS: устойчивость.", "category": "models"}
+{"term": "ETS: ограничения", "definition": "ETS: нет экзогенных признаков.", "category": "models"}
+{"term": "ETS: ключевые гиперпараметры", "definition": "Настраивают: trend, seasonal.", "category": "models"}
+{"term": "Фактор: Посещаемость", "definition": "Посещаемость — доля посещённых занятий.", "category": "education"}
+{"term": "Вмешательство: Посещаемость", "definition": "При неблагоприятном значении фактора «Посещаемость»: беседа куратора, выяснение причин пропусков.", "category": "education"}
+{"term": "Фактор: Пропуски занятий (absences)", "definition": "Пропуски занятий (absences) — число пропусков; в UCI от 0 до 93.", "category": "education"}
+{"term": "Вмешательство: Пропуски занятий (absences)", "definition": "При неблагоприятном значении фактора «Пропуски занятий (absences)»: контроль посещаемости, уведомление родителей/куратора.", "category": "education"}
+{"term": "Фактор: Предыдущие неудачи (failures)", "definition": "Предыдущие неудачи (failures) — число несданных ранее курсов.", "category": "education"}
+{"term": "Вмешательство: Предыдущие неудачи (failures)", "definition": "При неблагоприятном значении фактора «Предыдущие неудачи (failures)»: индивидуальный план ликвидации задолженностей.", "category": "education"}
+{"term": "Фактор: Учебное время (studytime)", "definition": "Учебное время (studytime) — еженедельное время на учёбу, шкала 1–4.", "category": "education"}
+{"term": "Вмешательство: Учебное время (studytime)", "definition": "При неблагоприятном значении фактора «Учебное время (studytime)»: план самостоятельной работы.", "category": "education"}
+{"term": "Фактор: Время в LMS", "definition": "Время в LMS — часы активности в системе обучения.", "category": "education"}
+{"term": "Вмешательство: Время в LMS", "definition": "При неблагоприятном значении фактора «Время в LMS»: напоминания, геймификация активности.", "category": "education"}
+{"term": "Фактор: Активность на форуме", "definition": "Активность на форуме — число сообщений в обсуждениях курса.", "category": "education"}
+{"term": "Вмешательство: Активность на форуме", "definition": "При неблагоприятном значении фактора «Активность на форуме»: вовлечение в групповые обсуждения.", "category": "education"}
+{"term": "Фактор: Сдача домашних заданий", "definition": "Сдача домашних заданий — доля сданных ДЗ.", "category": "education"}
+{"term": "Вмешательство: Сдача домашних заданий", "definition": "При неблагоприятном значении фактора «Сдача домашних заданий»: дробные дедлайны, разбор ошибок.", "category": "education"}
+{"term": "Фактор: Средний балл ДЗ", "definition": "Средний балл ДЗ — качество выполнения домашних заданий.", "category": "education"}
+{"term": "Вмешательство: Средний балл ДЗ", "definition": "При неблагоприятном значении фактора «Средний балл ДЗ»: дополнительные консультации.", "category": "education"}
+{"term": "Фактор: Поздние сдачи", "definition": "Поздние сдачи — число заданий, сданных после дедлайна.", "category": "education"}
+{"term": "Вмешательство: Поздние сдачи", "definition": "При неблагоприятном значении фактора «Поздние сдачи»: тайм-менеджмент, контрольные точки.", "category": "education"}
+{"term": "Фактор: Промежуточная оценка G1", "definition": "Промежуточная оценка G1 — оценка за первый период (0–20).", "category": "education"}
+{"term": "Вмешательство: Промежуточная оценка G1", "definition": "При неблагоприятном значении фактора «Промежуточная оценка G1»: раннее вмешательство при низком G1.", "category": "education"}
+{"term": "Фактор: Промежуточная оценка G2", "definition": "Промежуточная оценка G2 — оценка за второй период (0–20); сильнейший предиктор G3.", "category": "education"}
+{"term": "Вмешательство: Промежуточная оценка G2", "definition": "При неблагоприятном значении фактора «Промежуточная оценка G2»: консультация до итогового экзамена.", "category": "education"}
+{"term": "Фактор: Динамика оценок", "definition": "Динамика оценок — разница и наклон последовательности промежуточных оценок.", "category": "education"}
+{"term": "Вмешательство: Динамика оценок", "definition": "При неблагоприятном значении фактора «Динамика оценок»: реагировать на снижение раньше итогов.", "category": "education"}
+{"term": "Фактор: Образование матери (Medu)", "definition": "Образование матери (Medu) — уровень 0–4.", "category": "education"}
+{"term": "Вмешательство: Образование матери (Medu)", "definition": "При неблагоприятном значении фактора «Образование матери (Medu)»: учитывается как контекст, не как основание решения.", "category": "education"}
+{"term": "Фактор: Образование отца (Fedu)", "definition": "Образование отца (Fedu) — уровень 0–4.", "category": "education"}
+{"term": "Вмешательство: Образование отца (Fedu)", "definition": "При неблагоприятном значении фактора «Образование отца (Fedu)»: контекстный фактор.", "category": "education"}
+{"term": "Фактор: Работа родителей (Mjob/Fjob)", "definition": "Работа родителей (Mjob/Fjob) — сфера занятости.", "category": "education"}
+{"term": "Вмешательство: Работа родителей (Mjob/Fjob)", "definition": "При неблагоприятном значении фактора «Работа родителей (Mjob/Fjob)»: контекстный фактор.", "category": "education"}
+{"term": "Фактор: Семейная поддержка (famsup)", "definition": "Семейная поддержка (famsup) — помощь семьи в учёбе.", "category": "education"}
+{"term": "Вмешательство: Семейная поддержка (famsup)", "definition": "При неблагоприятном значении фактора «Семейная поддержка (famsup)»: вовлечение семьи.", "category": "education"}
+{"term": "Фактор: Школьная поддержка (schoolsup)", "definition": "Школьная поддержка (schoolsup) — дополнительная образовательная поддержка.", "category": "education"}
+{"term": "Вмешательство: Школьная поддержка (schoolsup)", "definition": "При неблагоприятном значении фактора «Школьная поддержка (schoolsup)»: назначение поддержки студентам риска.", "category": "education"}
+{"term": "Фактор: Платные занятия (paid)", "definition": "Платные занятия (paid) — дополнительные платные уроки.", "category": "education"}
+{"term": "Вмешательство: Платные занятия (paid)", "definition": "При неблагоприятном значении фактора «Платные занятия (paid)»: альтернатива — бесплатные консультации.", "category": "education"}
+{"term": "Фактор: Желание получить высшее образование (higher)", "definition": "Желание получить высшее образование (higher) — мотивационный фактор.", "category": "education"}
+{"term": "Вмешательство: Желание получить высшее образование (higher)", "definition": "При неблагоприятном значении фактора «Желание получить высшее образование (higher)»: профориентация, мотивационные беседы.", "category": "education"}
+{"term": "Фактор: Доступ к интернету (internet)", "definition": "Доступ к интернету (internet) — наличие интернета дома.", "category": "education"}
+{"term": "Вмешательство: Доступ к интернету (internet)", "definition": "При неблагоприятном значении фактора «Доступ к интернету (internet)»: доступ к компьютерным классам.", "category": "education"}
+{"term": "Фактор: Романтические отношения (romantic)", "definition": "Романтические отношения (romantic) — социальный фактор.", "category": "education"}
+{"term": "Вмешательство: Романтические отношения (romantic)", "definition": "При неблагоприятном значении фактора «Романтические отношения (romantic)»: не используется для решений без согласия.", "category": "education"}
+{"term": "Фактор: Качество семейных отношений (famrel)", "definition": "Качество семейных отношений (famrel) — шкала 1–5.", "category": "education"}
+{"term": "Вмешательство: Качество семейных отношений (famrel)", "definition": "При неблагоприятном значении фактора «Качество семейных отношений (famrel)»: психологическая поддержка.", "category": "education"}
+{"term": "Фактор: Свободное время (freetime)", "definition": "Свободное время (freetime) — шкала 1–5.", "category": "education"}
+{"term": "Вмешательство: Свободное время (freetime)", "definition": "При неблагоприятном значении фактора «Свободное время (freetime)»: баланс нагрузки.", "category": "education"}
+{"term": "Фактор: Встречи с друзьями (goout)", "definition": "Встречи с друзьями (goout) — социальная активность 1–5.", "category": "education"}
+{"term": "Вмешательство: Встречи с друзьями (goout)", "definition": "При неблагоприятном значении фактора «Встречи с друзьями (goout)»: баланс учёбы и досуга.", "category": "education"}
+{"term": "Фактор: Алкоголь в будни (Dalc)", "definition": "Алкоголь в будни (Dalc) — шкала 1–5.", "category": "education"}
+{"term": "Вмешательство: Алкоголь в будни (Dalc)", "definition": "При неблагоприятном значении фактора «Алкоголь в будни (Dalc)»: направление к психологу.", "category": "education"}
+{"term": "Фактор: Алкоголь в выходные (Walc)", "definition": "Алкоголь в выходные (Walc) — шкала 1–5.", "category": "education"}
+{"term": "Вмешательство: Алкоголь в выходные (Walc)", "definition": "При неблагоприятном значении фактора «Алкоголь в выходные (Walc)»: профилактические программы.", "category": "education"}
+{"term": "Фактор: Здоровье (health)", "definition": "Здоровье (health) — самооценка 1–5.", "category": "education"}
+{"term": "Вмешательство: Здоровье (health)", "definition": "При неблагоприятном значении фактора «Здоровье (health)»: медицинская служба, гибкий график.", "category": "education"}
+{"term": "Фактор: Время в пути (traveltime)", "definition": "Время в пути (traveltime) — время до учебного заведения.", "category": "education"}
+{"term": "Вмешательство: Время в пути (traveltime)", "definition": "При неблагоприятном значении фактора «Время в пути (traveltime)»: дистанционные форматы.", "category": "education"}
+{"term": "Фактор: Возраст", "definition": "Возраст — возраст студента; переростки чаще в группе риска.", "category": "education"}
+{"term": "Вмешательство: Возраст", "definition": "При неблагоприятном значении фактора «Возраст»: учёт жизненных обстоятельств.", "category": "education"}
+{"term": "Фактор: Пол", "definition": "Пол — демографический признак; использовать с учётом справедливости.", "category": "education"}
+{"term": "Вмешательство: Пол", "definition": "При неблагоприятном значении фактора «Пол»: аудит смещений модели.", "category": "education"}
+{"term": "Фактор: Место проживания (address)", "definition": "Место проживания (address) — город/село.", "category": "education"}
+{"term": "Вмешательство: Место проживания (address)", "definition": "При неблагоприятном значении фактора «Место проживания (address)»: транспортная доступность.", "category": "education"}
+{"term": "Фактор: Размер семьи (famsize)", "definition": "Размер семьи (famsize) — ≤3 или >3.", "category": "education"}
+{"term": "Вмешательство: Размер семьи (famsize)", "definition": "При неблагоприятном значении фактора «Размер семьи (famsize)»: контекстный фактор.", "category": "education"}
+{"term": "Фактор: Статус родителей (Pstatus)", "definition": "Статус родителей (Pstatus) — вместе/раздельно.", "category": "education"}
+{"term": "Вмешательство: Статус родителей (Pstatus)", "definition": "При неблагоприятном значении фактора «Статус родителей (Pstatus)»: контекстный фактор.", "category": "education"}
+{"term": "Фактор: Опекун (guardian)", "definition": "Опекун (guardian) — мать/отец/другой.", "category": "education"}
+{"term": "Вмешательство: Опекун (guardian)", "definition": "При неблагоприятном значении фактора «Опекун (guardian)»: контакт с опекуном.", "category": "education"}
+{"term": "Фактор: Причина выбора школы (reason)", "definition": "Причина выбора школы (reason) — близость, репутация, программа.", "category": "education"}
+{"term": "Вмешательство: Причина выбора школы (reason)", "definition": "При неблагоприятном значении фактора «Причина выбора школы (reason)»: контекстный фактор.", "category": "education"}
+{"term": "Фактор: Внеучебная активность (activities)", "definition": "Внеучебная активность (activities) — кружки, спорт.", "category": "education"}
+{"term": "Вмешательство: Внеучебная активность (activities)", "definition": "При неблагоприятном значении фактора «Внеучебная активность (activities)»: вовлечение в жизнь вуза.", "category": "education"}
+{"term": "Фактор: Посещение детского сада (nursery)", "definition": "Посещение детского сада (nursery) — ранний образовательный опыт.", "category": "education"}
+{"term": "Вмешательство: Посещение детского сада (nursery)", "definition": "При неблагоприятном значении фактора «Посещение детского сада (nursery)»: контекстный фактор.", "category": "education"}
+{"term": "Фактор: Индекс депривации (imd_band)", "definition": "Индекс депривации (imd_band) — социально-экономический статус района (OULAD).", "category": "education"}
+{"term": "Вмешательство: Индекс депривации (imd_band)", "definition": "При неблагоприятном значении фактора «Индекс депривации (imd_band)»: социальная поддержка, стипендии.", "category": "education"}
+{"term": "Фактор: Предыдущие попытки (num_prev_attempts)", "definition": "Предыдущие попытки (num_prev_attempts) — повторное прохождение курса.", "category": "education"}
+{"term": "Вмешательство: Предыдущие попытки (num_prev_attempts)", "definition": "При неблагоприятном значении фактора «Предыдущие попытки (num_prev_attempts)»: тьютор, адаптированный план.", "category": "education"}
+{"term": "Фактор: Учебная нагрузка (studied_credits)", "definition": "Учебная нагрузка (studied_credits) — число кредитов в семестре.", "category": "education"}
+{"term": "Вмешательство: Учебная нагрузка (studied_credits)", "definition": "При неблагоприятном значении фактора «Учебная нагрузка (studied_credits)»: консультация по нагрузке.", "category": "education"}
+{"term": "Фактор: Инвалидность (disability)", "definition": "Инвалидность (disability) — наличие ограничений здоровья.", "category": "education"}
+{"term": "Вмешательство: Инвалидность (disability)", "definition": "При неблагоприятном значении фактора «Инвалидность (disability)»: адаптация учебного процесса.", "category": "education"}
+{"term": "Фактор: Стипендия (scholarship)", "definition": "Стипендия (scholarship) — финансовая поддержка.", "category": "education"}
+{"term": "Вмешательство: Стипендия (scholarship)", "definition": "При неблагоприятном значении фактора «Стипендия (scholarship)»: информирование о стипендиях.", "category": "education"}
+{"term": "Фактор: Высшее образование до курса (highest_education)", "definition": "Высшее образование до курса (highest_education) — предыдущий уровень образования.", "category": "education"}
+{"term": "Вмешательство: Высшее образование до курса (highest_education)", "definition": "При неблагоприятном значении фактора «Высшее образование до курса (highest_education)»: выравнивающие курсы.", "category": "education"}
+{"term": "Фактор: Вовлечённость (engagement)", "definition": "Вовлечённость (engagement) — интегральная активность: посещаемость, ДЗ, LMS, форум.", "category": "education"}
+{"term": "Вмешательство: Вовлечённость (engagement)", "definition": "При неблагоприятном значении фактора «Вовлечённость (engagement)»: раннее вмешательство при падении.", "category": "education"}
+{"term": "Тест Диболда–Мариано", "definition": "Статистический тест: сравнение точности двух прогнозов по ряду разностей потерь.", "category": "statistics"}
+{"term": "Тест Диболда–Мариано: допущения", "definition": "Тест Диболда–Мариано: стационарность ряда разностей.", "category": "statistics"}
+{"term": "Тест Диболда–Мариано: интерпретация", "definition": "Тест Диболда–Мариано: p<0.05 и DM<0 — первая модель точнее.", "category": "statistics"}
+{"term": "Тест Уилкоксона", "definition": "Статистический тест: непараметрическое сравнение парных выборок (метрик по датасетам).", "category": "statistics"}
+{"term": "Тест Уилкоксона: допущения", "definition": "Тест Уилкоксона: симметрия разностей.", "category": "statistics"}
+{"term": "Тест Уилкоксона: интерпретация", "definition": "Тест Уилкоксона: p<0.05 — режимы различаются.", "category": "statistics"}
+{"term": "Парный t-тест", "definition": "Статистический тест: сравнение средних парных наблюдений.", "category": "statistics"}
+{"term": "Парный t-тест: допущения", "definition": "Парный t-тест: нормальность разностей.", "category": "statistics"}
+{"term": "Парный t-тест: интерпретация", "definition": "Парный t-тест: чувствителен к выбросам.", "category": "statistics"}
+{"term": "Бутстрап-доверительный интервал", "definition": "Статистический тест: интервал по перевыборкам с возвращением.", "category": "statistics"}
+{"term": "Бутстрап-доверительный интервал: допущения", "definition": "Бутстрап-доверительный интервал: независимость наблюдений.", "category": "statistics"}
+{"term": "Бутстрап-доверительный интервал: интерпретация", "definition": "Бутстрап-доверительный интервал: если CI разности не содержит 0 — различие значимо.", "category": "statistics"}
+{"term": "Тест Льюнга–Бокса", "definition": "Статистический тест: проверка автокорреляции остатков.", "category": "statistics"}
+{"term": "Тест Льюнга–Бокса: допущения", "definition": "Тест Льюнга–Бокса: достаточная длина ряда.", "category": "statistics"}
+{"term": "Тест Льюнга–Бокса: интерпретация", "definition": "Тест Льюнга–Бокса: p<0.05 — остатки не белый шум.", "category": "statistics"}
+{"term": "Тест Шапиро–Уилка", "definition": "Статистический тест: проверка нормальности распределения.", "category": "statistics"}
+{"term": "Тест Шапиро–Уилка: допущения", "definition": "Тест Шапиро–Уилка: n ≤ 5000.", "category": "statistics"}
+{"term": "Тест Шапиро–Уилка: интерпретация", "definition": "Тест Шапиро–Уилка: p<0.05 — распределение не нормальное.", "category": "statistics"}
+{"term": "Тест Дики–Фуллера (ADF)", "definition": "Статистический тест: проверка стационарности ряда.", "category": "statistics"}
+{"term": "Тест Дики–Фуллера (ADF): допущения", "definition": "Тест Дики–Фуллера (ADF): линейная модель с лагами.", "category": "statistics"}
+{"term": "Тест Дики–Фуллера (ADF): интерпретация", "definition": "Тест Дики–Фуллера (ADF): p<0.05 — ряд стационарен.", "category": "statistics"}
+{"term": "Тест Макнемара", "definition": "Статистический тест: сравнение двух классификаторов на одних объектах.", "category": "statistics"}
+{"term": "Тест Макнемара: допущения", "definition": "Тест Макнемара: парные бинарные исходы.", "category": "statistics"}
+{"term": "Тест Макнемара: интерпретация", "definition": "Тест Макнемара: оценивает различие ошибок.", "category": "statistics"}
+{"term": "Тест Фридмана", "definition": "Статистический тест: сравнение нескольких моделей по многим датасетам.", "category": "statistics"}
+{"term": "Тест Фридмана: допущения", "definition": "Тест Фридмана: ранги внутри датасета.", "category": "statistics"}
+{"term": "Тест Фридмана: интерпретация", "definition": "Тест Фридмана: за ним следует post-hoc Немени.", "category": "statistics"}
+{"term": "Поправка Бонферрони", "definition": "Статистический тест: коррекция уровня значимости при множественных сравнениях.", "category": "statistics"}
+{"term": "Поправка Бонферрони: допущения", "definition": "Поправка Бонферрони: консервативна.", "category": "statistics"}
+{"term": "Поправка Бонферрони: интерпретация", "definition": "Поправка Бонферрони: α/m.", "category": "statistics"}
+{"term": "Тест Хи-квадрат", "definition": "Статистический тест: независимость категориальных признаков.", "category": "statistics"}
+{"term": "Тест Хи-квадрат: допущения", "definition": "Тест Хи-квадрат: ожидаемые частоты ≥5.", "category": "statistics"}
+{"term": "Тест Хи-квадрат: интерпретация", "definition": "Тест Хи-квадрат: используется в EDA.", "category": "statistics"}
+{"term": "Тест Манна–Уитни", "definition": "Статистический тест: сравнение распределений двух независимых выборок.", "category": "statistics"}
+{"term": "Тест Манна–Уитни: допущения", "definition": "Тест Манна–Уитни: непараметрический.", "category": "statistics"}
+{"term": "Тест Манна–Уитни: интерпретация", "definition": "Тест Манна–Уитни: сравнение групп студентов.", "category": "statistics"}
+{"term": "Итерация Supervisor", "definition": "один проход Selector → Validator → Critic (→ Editor) в цикле согласования.", "category": "agents"}
+{"term": "max_iterations", "definition": "лимит итераций цикла; по исчерпании — HITL.", "category": "agents"}
+{"term": "Критерий сходимости", "definition": "Validator без блокирующих замечаний и оценка Critic ≥ порога.", "category": "agents"}
+{"term": "Доля HITL", "definition": "доля задач, потребовавших решения человека — агентная метрика.", "category": "agents"}
+{"term": "Стоимость агентного подхода", "definition": "время выполнения и число LLM-токенов на задачу.", "category": "agents"}
+{"term": "Режим baseline", "definition": "классическая модель по умолчанию без LLM и RAG.", "category": "agents"}
+{"term": "Режим +rag", "definition": "модель выбирается голосованием лучших моделей похожих кейсов.", "category": "agents"}
+{"term": "Режим +agents", "definition": "полный мультиагентный цикл с Tool Calling и HITL.", "category": "agents"}
+{"term": "Режим +foundation", "definition": "использование foundation-модели (TabPFN для таблиц, Chronos для рядов).", "category": "agents"}
+{"term": "Mock-провайдер", "definition": "детерминированная политика вместо LLM для тестов и слабых машин.", "category": "agents"}
+{"term": "Правило по умолчанию", "definition": "модель, выбираемая после 3 неудачных попыток Tool Calling.", "category": "agents"}
+{"term": "Подвыборка данных", "definition": "обучение на 10/20/50/100% данных для кривой «качество vs объём».", "category": "agents"}
+{"term": "Кривая обучения", "definition": "зависимость качества от объёма обучающих данных.", "category": "agents"}
+{"term": "Справедливость модели", "definition": "отсутствие систематических смещений по полу, возрасту, социальному статусу.", "category": "agents"}
+{"term": "Аудит смещений", "definition": "сравнение метрик модели по демографическим группам.", "category": "agents"}
+{"term": "Приватность данных студентов", "definition": "минимизация и защита персональных данных, обезличивание.", "category": "agents"}
+{"term": "Обезличивание", "definition": "удаление идентифицирующей информации перед анализом.", "category": "agents"}
+{"term": "Согласие на обработку данных", "definition": "правовое основание анализа учебных данных.", "category": "agents"}
+{"term": "Решение преподавателя", "definition": "финальное слово остаётся за человеком; модель — инструмент поддержки.", "category": "agents"}
+{"term": "Подтверждение риска", "definition": "преподаватель подтверждает прогноз; кейс пополняет базу знаний.", "category": "agents"}
+{"term": "Корректировка риска", "definition": "преподаватель меняет оценку риска с учётом личных обстоятельств.", "category": "agents"}
+{"term": "Инструмент fit_logistic_regression", "definition": "Логистическая регрессия: интерпретируемая линейная модель вероятности риска. Хороша для малых выборок и когда важна объяснимость коэффициентов.", "category": "tools"}
+{"term": "fit_logistic_regression.C", "definition": "Аргумент инструмента fit_logistic_regression: обратная сила регуляризации; значение по умолчанию 1.0.", "category": "hyperparameters"}
+{"term": "fit_logistic_regression.l1_ratio", "definition": "Аргумент инструмента fit_logistic_regression: 0 = L2, 1 = L1, между — ElasticNet; значение по умолчанию 0.0.", "category": "hyperparameters"}
+{"term": "fit_logistic_regression.class_weight", "definition": "Аргумент инструмента fit_logistic_regression: балансировка классов; значение по умолчанию 'balanced'.", "category": "hyperparameters"}
+{"term": "fit_logistic_regression.max_iter", "definition": "Аргумент инструмента fit_logistic_regression: параметр инструмента; значение по умолчанию 3000.", "category": "hyperparameters"}
+{"term": "Инструмент fit_ridge_regression", "definition": "Ridge-регрессия итоговой оценки: линейная, устойчива к мультиколлинеарности.", "category": "tools"}
+{"term": "fit_ridge_regression.alpha", "definition": "Аргумент инструмента fit_ridge_regression: сила L2-регуляризации; значение по умолчанию 1.0.", "category": "hyperparameters"}
+{"term": "Инструмент fit_random_forest", "definition": "Случайный лес: нелинейные зависимости и взаимодействия, устойчив к выбросам, не требует масштабирования.", "category": "tools"}
+{"term": "fit_random_forest.n_estimators", "definition": "Аргумент инструмента fit_random_forest: параметр инструмента; значение по умолчанию 300.", "category": "hyperparameters"}
+{"term": "fit_random_forest.max_depth", "definition": "Аргумент инструмента fit_random_forest: параметр инструмента; значение по умолчанию None.", "category": "hyperparameters"}
+{"term": "fit_random_forest.min_samples_leaf", "definition": "Аргумент инструмента fit_random_forest: параметр инструмента; значение по умолчанию 2.", "category": "hyperparameters"}
+{"term": "fit_random_forest.max_features", "definition": "Аргумент инструмента fit_random_forest: параметр инструмента; значение по умолчанию 'sqrt'.", "category": "hyperparameters"}
+{"term": "fit_random_forest.class_weight", "definition": "Аргумент инструмента fit_random_forest: только классификация; значение по умолчанию None.", "category": "hyperparameters"}
+{"term": "Инструмент fit_tabular_xgboost", "definition": "Градиентный бустинг XGBoost: обычно наилучшая точность на табличных данных, нужен контроль переобучения (max_depth, learning_rate).", "category": "tools"}
+{"term": "fit_tabular_xgboost.n_estimators", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 300.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.max_depth", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 4.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.learning_rate", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 0.05.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.subsample", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 0.9.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.colsample_bytree", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 0.8.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.min_child_weight", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 1.0.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.reg_lambda", "definition": "Аргумент инструмента fit_tabular_xgboost: параметр инструмента; значение по умолчанию 1.0.", "category": "hyperparameters"}
+{"term": "fit_tabular_xgboost.scale_pos_weight", "definition": "Аргумент инструмента fit_tabular_xgboost: вес положительного класса; значение по умолчанию None.", "category": "hyperparameters"}
+{"term": "Инструмент fit_arima", "definition": "ARIMA/SARIMA для временного ряда.", "category": "tools"}
+{"term": "fit_arima.order", "definition": "Аргумент инструмента fit_arima: параметр инструмента; значение по умолчанию (1, 1, 1).", "category": "hyperparameters"}
+{"term": "fit_arima.seasonal_order", "definition": "Аргумент инструмента fit_arima: параметр инструмента; значение по умолчанию (0, 0, 0, 0).", "category": "hyperparameters"}
+{"term": "Инструмент fit_ets", "definition": "Экспоненциальное сглаживание (Holt-Winters).", "category": "tools"}
+{"term": "fit_ets.trend", "definition": "Аргумент инструмента fit_ets: параметр инструмента; значение по умолчанию 'add'.", "category": "hyperparameters"}
+{"term": "fit_ets.seasonal", "definition": "Аргумент инструмента fit_ets: параметр инструмента; значение по умолчанию None.", "category": "hyperparameters"}
+{"term": "fit_ets.seasonal_periods", "definition": "Аргумент инструмента fit_ets: параметр инструмента; значение по умолчанию None.", "category": "hyperparameters"}
+{"term": "Инструмент add_features", "definition": "Добавить сгенерированные признаки. Операции: score_dynamics — динамика промежуточных оценок: разница последний-первый, средняя, наклон тренда; activity_aggregates — агрегаты активности: z-среднее посещаемости/ДЗ/LMS/форума; ratios — отношения: оценка на час LMS, доля поздних сдач; interactions — попарные произведения 3 наиболее вариативных числовых признаков; polynomial — квадраты 3 наиболее вариативных числовых признаков; log_transform — log1p для неотрицательных признаков с сильной асимметрией", "category": "tools"}
+{"term": "add_features.ops", "definition": "Аргумент инструмента add_features: параметр инструмента; значение по умолчанию PydanticUndefined.", "category": "hyperparameters"}
+{"term": "Инструмент drop_features", "definition": "Удалить признаки (например, с утечкой целевой переменной).", "category": "tools"}
+{"term": "drop_features.columns", "definition": "Аргумент инструмента drop_features: параметр инструмента; значение по умолчанию PydanticUndefined.", "category": "hyperparameters"}
+{"term": "drop_features.reason", "definition": "Аргумент инструмента drop_features: параметр инструмента; значение по умолчанию ''.", "category": "hyperparameters"}
+{"term": "Инструмент change_threshold", "definition": "Изменить порог классификации «в группе риска».", "category": "tools"}
+{"term": "change_threshold.threshold", "definition": "Аргумент инструмента change_threshold: параметр инструмента; значение по умолчанию PydanticUndefined.", "category": "hyperparameters"}
+{"term": "Инструмент change_hyperparams", "definition": "Изменить гиперпараметры текущей модели.", "category": "tools"}
+{"term": "change_hyperparams.params", "definition": "Аргумент инструмента change_hyperparams: параметр инструмента; значение по умолчанию PydanticUndefined.", "category": "hyperparameters"}
+{"term": "Инструмент switch_model", "definition": "Переключиться на другую модель из реестра.", "category": "tools"}
+{"term": "switch_model.model_type", "definition": "Аргумент инструмента switch_model: параметр инструмента; значение по умолчанию PydanticUndefined.", "category": "hyperparameters"}
+{"term": "Операция feature engineering: score_dynamics", "definition": "динамика промежуточных оценок: разница последний-первый, средняя, наклон тренда.", "category": "features"}
+{"term": "Операция feature engineering: activity_aggregates", "definition": "агрегаты активности: z-среднее посещаемости/ДЗ/LMS/форума.", "category": "features"}
+{"term": "Операция feature engineering: ratios", "definition": "отношения: оценка на час LMS, доля поздних сдач.", "category": "features"}
+{"term": "Операция feature engineering: interactions", "definition": "попарные произведения 3 наиболее вариативных числовых признаков.", "category": "features"}
+{"term": "Операция feature engineering: polynomial", "definition": "квадраты 3 наиболее вариативных числовых признаков.", "category": "features"}
+{"term": "Операция feature engineering: log_transform", "definition": "log1p для неотрицательных признаков с сильной асимметрией.", "category": "features"}
+{"term": "UCI: school", "definition": "Признак набора UCI Student Performance: школа (GP — Gabriel Pereira, MS — Mousinho da Silveira).", "category": "data"}
+{"term": "UCI: sex", "definition": "Признак набора UCI Student Performance: пол (F/M).", "category": "data"}
+{"term": "UCI: age", "definition": "Признак набора UCI Student Performance: возраст 15–22.", "category": "data"}
+{"term": "UCI: address", "definition": "Признак набора UCI Student Performance: тип адреса: U — город, R — село.", "category": "data"}
+{"term": "UCI: famsize", "definition": "Признак набора UCI Student Performance: размер семьи: LE3 ≤3, GT3 >3.", "category": "data"}
+{"term": "UCI: Pstatus", "definition": "Признак набора UCI Student Performance: совместное (T) или раздельное (A) проживание родителей.", "category": "data"}
+{"term": "UCI: Medu", "definition": "Признак набора UCI Student Performance: образование матери 0–4.", "category": "data"}
+{"term": "UCI: Fedu", "definition": "Признак набора UCI Student Performance: образование отца 0–4.", "category": "data"}
+{"term": "UCI: Mjob", "definition": "Признак набора UCI Student Performance: работа матери.", "category": "data"}
+{"term": "UCI: Fjob", "definition": "Признак набора UCI Student Performance: работа отца.", "category": "data"}
+{"term": "UCI: reason", "definition": "Признак набора UCI Student Performance: причина выбора школы.", "category": "data"}
+{"term": "UCI: guardian", "definition": "Признак набора UCI Student Performance: опекун.", "category": "data"}
+{"term": "UCI: traveltime", "definition": "Признак набора UCI Student Performance: время в пути 1–4.", "category": "data"}
+{"term": "UCI: studytime", "definition": "Признак набора UCI Student Performance: учебное время в неделю 1–4.", "category": "data"}
+{"term": "UCI: failures", "definition": "Признак набора UCI Student Performance: число прошлых неудач (n, если 1≤n<3, иначе 4).", "category": "data"}
+{"term": "UCI: schoolsup", "definition": "Признак набора UCI Student Performance: дополнительная школьная поддержка.", "category": "data"}
+{"term": "UCI: famsup", "definition": "Признак набора UCI Student Performance: семейная образовательная поддержка.", "category": "data"}
+{"term": "UCI: paid", "definition": "Признак набора UCI Student Performance: платные дополнительные занятия по предмету.", "category": "data"}
+{"term": "UCI: activities", "definition": "Признак набора UCI Student Performance: внеучебная деятельность.", "category": "data"}
+{"term": "UCI: nursery", "definition": "Признак набора UCI Student Performance: посещал детский сад.", "category": "data"}
+{"term": "UCI: higher", "definition": "Признак набора UCI Student Performance: хочет получить высшее образование.", "category": "data"}
+{"term": "UCI: internet", "definition": "Признак набора UCI Student Performance: доступ в интернет дома.", "category": "data"}
+{"term": "UCI: romantic", "definition": "Признак набора UCI Student Performance: в романтических отношениях.", "category": "data"}
+{"term": "UCI: famrel", "definition": "Признак набора UCI Student Performance: качество семейных отношений 1–5.", "category": "data"}
+{"term": "UCI: freetime", "definition": "Признак набора UCI Student Performance: свободное время после школы 1–5.", "category": "data"}
+{"term": "UCI: goout", "definition": "Признак набора UCI Student Performance: встречи с друзьями 1–5.", "category": "data"}
+{"term": "UCI: Dalc", "definition": "Признак набора UCI Student Performance: алкоголь в будни 1–5.", "category": "data"}
+{"term": "UCI: Walc", "definition": "Признак набора UCI Student Performance: алкоголь в выходные 1–5.", "category": "data"}
+{"term": "UCI: health", "definition": "Признак набора UCI Student Performance: состояние здоровья 1–5.", "category": "data"}
+{"term": "UCI: absences", "definition": "Признак набора UCI Student Performance: число пропусков 0–93.", "category": "data"}
+{"term": "UCI: G1", "definition": "Признак набора UCI Student Performance: оценка за первый период 0–20.", "category": "data"}
+{"term": "UCI: G2", "definition": "Признак набора UCI Student Performance: оценка за второй период 0–20.", "category": "data"}
+{"term": "UCI: G3", "definition": "Признак набора UCI Student Performance: итоговая оценка 0–20 (цель).", "category": "data"}
+{"term": "OULAD-схема: gender", "definition": "Признак синтетического OULAD-подобного набора: пол.", "category": "data"}
+{"term": "OULAD-схема: age_band", "definition": "Признак синтетического OULAD-подобного набора: возрастная группа.", "category": "data"}
+{"term": "OULAD-схема: region", "definition": "Признак синтетического OULAD-подобного набора: регион проживания.", "category": "data"}
+{"term": "OULAD-схема: highest_education", "definition": "Признак синтетического OULAD-подобного набора: предыдущее образование.", "category": "data"}
+{"term": "OULAD-схема: imd_band", "definition": "Признак синтетического OULAD-подобного набора: индекс множественной депривации района.", "category": "data"}
+{"term": "OULAD-схема: disability", "definition": "Признак синтетического OULAD-подобного набора: наличие инвалидности.", "category": "data"}
+{"term": "OULAD-схема: specialty", "definition": "Признак синтетического OULAD-подобного набора: специальность.", "category": "data"}
+{"term": "OULAD-схема: scholarship", "definition": "Признак синтетического OULAD-подобного набора: наличие стипендии.", "category": "data"}
+{"term": "OULAD-схема: num_prev_attempts", "definition": "Признак синтетического OULAD-подобного набора: число предыдущих попыток курса.", "category": "data"}
+{"term": "OULAD-схема: studied_credits", "definition": "Признак синтетического OULAD-подобного набора: учебная нагрузка в кредитах.", "category": "data"}
+{"term": "OULAD-схема: attendance_rate", "definition": "Признак синтетического OULAD-подобного набора: доля посещённых занятий 0–1.", "category": "data"}
+{"term": "OULAD-схема: hw_submitted_ratio", "definition": "Признак синтетического OULAD-подобного набора: доля сданных домашних заданий 0–1.", "category": "data"}
+{"term": "OULAD-схема: hw_avg_score", "definition": "Признак синтетического OULAD-подобного набора: средний балл ДЗ 0–100.", "category": "data"}
+{"term": "OULAD-схема: test1_score", "definition": "Признак синтетического OULAD-подобного набора: балл за первый промежуточный тест 0–100.", "category": "data"}
+{"term": "OULAD-схема: test2_score", "definition": "Признак синтетического OULAD-подобного набора: балл за второй промежуточный тест 0–100.", "category": "data"}
+{"term": "OULAD-схема: test3_score", "definition": "Признак синтетического OULAD-подобного набора: балл за третий промежуточный тест 0–100.", "category": "data"}
+{"term": "OULAD-схема: lms_hours", "definition": "Признак синтетического OULAD-подобного набора: часы в LMS за курс.", "category": "data"}
+{"term": "OULAD-схема: forum_posts", "definition": "Признак синтетического OULAD-подобного набора: число сообщений на форуме.", "category": "data"}
+{"term": "OULAD-схема: late_submissions", "definition": "Признак синтетического OULAD-подобного набора: число поздних сдач.", "category": "data"}
+{"term": "OULAD-схема: final_score", "definition": "Признак синтетического OULAD-подобного набора: итоговый балл 0–100 (цель регрессии).", "category": "data"}
+{"term": "OULAD-схема: dropout", "definition": "Признак синтетического OULAD-подобного набора: отчисление/непрохождение курса (цель классификации).", "category": "data"}
+{"term": "Замечание Validator: leakage", "definition": "признак почти идеально предсказывает цель — критическое замечание, признак удаляется Editor-ом.", "category": "validation"}
+{"term": "Замечание Validator: dominant_feature", "definition": "прогноз определяется одним признаком (>60% важности) — проверить на утечку.", "category": "validation"}
+{"term": "Замечание Validator: low_quality", "definition": "основная метрика CV ниже порога (ROC-AUC 0.7 / R² 0.3).", "category": "validation"}
+{"term": "Замечание Validator: poor_calibration", "definition": "ECE > 0.1 — вероятности плохо откалиброваны.", "category": "validation"}
+{"term": "Замечание Validator: low_recall", "definition": "recall группы риска < 0.5 — модель пропускает рисковых студентов.", "category": "validation"}
+{"term": "Замечание Validator: overfitting", "definition": "разрыв train/test > 0.15 по основной метрике.", "category": "validation"}
+{"term": "Замечание Validator: unstable_estimate", "definition": "оценки CV и holdout расходятся более чем на 0.12.", "category": "validation"}
+{"term": "Замечание Validator: non_normal_residuals", "definition": "остатки регрессии не нормальны.", "category": "validation"}
+{"term": "Замечание Validator: invalid_predictions", "definition": "форма прогнозов не совпадает с данными или есть NaN.", "category": "validation"}
+{"term": "Замечание Validator: invalid_probabilities", "definition": "вероятности вне [0, 1].", "category": "validation"}
+{"term": "Замечание Validator: small_sample", "definition": "менее 60 размеченных строк.", "category": "validation"}
+{"term": "Замечание Validator: class_imbalance", "definition": "доля миноритарного класса < 20%.", "category": "validation"}
+{"term": "Замечание Validator: high_missing", "definition": "более 30% пропусков.", "category": "validation"}
+{"term": "Замечание Validator: residual_autocorrelation", "definition": "остатки временного ряда автокоррелированы (Ljung-Box p<0.05).", "category": "validation"}

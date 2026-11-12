@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+data/mlf.db*
+data/artifacts/
+data/indexes/
+data/logs/
+eval.log
+.gradio/
+results/

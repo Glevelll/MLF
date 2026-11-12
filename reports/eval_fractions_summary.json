@@ -1,0 +1,1444 @@
+{
+  "groups": [
+    {
+      "problem_type": "classification",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "m_accuracy": 0.7822177690091614,
+      "m_f1": 0.615511206504816,
+      "m_precision": 0.695483277197228,
+      "m_recall": 0.6198786852842357,
+      "m_brier": 0.15638567924068222,
+      "m_ece": 0.12993770021213766,
+      "m_roc_auc": 0.8304059164005456,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 13.12790476190476
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "m_accuracy": 0.7931263858702754,
+      "m_f1": 0.6956078631037459,
+      "m_precision": 0.6712003719813692,
+      "m_recall": 0.744627568428651,
+      "m_brier": 0.14827546410283393,
+      "m_ece": 0.13810630788697908,
+      "m_roc_auc": 0.8580954780758515,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 10.91552380952381
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "m_accuracy": 0.8095833814167238,
+      "m_f1": 0.7133349837493014,
+      "m_precision": 0.6864765104814637,
+      "m_recall": 0.7608841781051662,
+      "m_brier": 0.1346086667198057,
+      "m_ece": 0.11372030086855599,
+      "m_roc_auc": 0.876785097722693,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 9.051714285714285
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": 0.8173115942688566,
+      "m_f1": 0.7308611144931535,
+      "m_precision": 0.7118982736552459,
+      "m_recall": 0.7755942565615551,
+      "m_brier": 0.13082906440679018,
+      "m_ece": 0.12448355900548902,
+      "m_roc_auc": 0.8882230460514136,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 7.982142857142857
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "m_accuracy": 0.7769036982417239,
+      "m_f1": 0.6693422522208662,
+      "m_precision": 0.6740126758749438,
+      "m_recall": 0.6976648274588075,
+      "m_brier": 0.1560400914713404,
+      "m_ece": 0.14495123610304111,
+      "m_roc_auc": 0.8450572784893133,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.17876190476190476
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "m_accuracy": 0.8011422095195222,
+      "m_f1": 0.7078625591450192,
+      "m_precision": 0.6820863263125703,
+      "m_recall": 0.753033436555602,
+      "m_brier": 0.14382386043913736,
+      "m_ece": 0.13089665094574487,
+      "m_roc_auc": 0.8649679785613665,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.1688095238095238
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "m_accuracy": 0.8177818633522721,
+      "m_f1": 0.72555099357847,
+      "m_precision": 0.7035481667301701,
+      "m_recall": 0.7685319012260352,
+      "m_brier": 0.12926744622499772,
+      "m_ece": 0.10849259397537525,
+      "m_roc_auc": 0.8847585495100835,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.194
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": 0.8232738598510585,
+      "m_f1": 0.7400642703393876,
+      "m_precision": 0.7174297791867514,
+      "m_recall": 0.7851314047541654,
+      "m_brier": 0.12441166796703569,
+      "m_ece": 0.11573335414525338,
+      "m_roc_auc": 0.8933187284580203,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.27461904761904765
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "m_accuracy": 0.7566119822979175,
+      "m_f1": 0.6378484389558453,
+      "m_precision": 0.6217737503756164,
+      "m_recall": 0.6673039292454475,
+      "m_brier": 0.17269907176937713,
+      "m_ece": 0.14865746052880754,
+      "m_roc_auc": 0.8107163607336836,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.05671428571428572
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "m_accuracy": 0.7728257962039476,
+      "m_f1": 0.6653722376910304,
+      "m_precision": 0.6385373841526889,
+      "m_recall": 0.7072438495502934,
+      "m_brier": 0.16493679706373557,
+      "m_ece": 0.13467071033796518,
+      "m_roc_auc": 0.8323907926409471,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.05438095238095238
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "m_accuracy": 0.7933176238101018,
+      "m_f1": 0.702234064130507,
+      "m_precision": 0.6641218920872753,
+      "m_recall": 0.7585500619936695,
+      "m_brier": 0.14961794779404622,
+      "m_ece": 0.12059286355260197,
+      "m_roc_auc": 0.8610231871598105,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.06276190476190477
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": 0.8066903572567067,
+      "m_f1": 0.7229535105396317,
+      "m_precision": 0.6825839268051951,
+      "m_recall": 0.7828062375318882,
+      "m_brier": 0.13561034371722494,
+      "m_ece": 0.11486775483187055,
+      "m_roc_auc": 0.8815416638308151,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.07466666666666667
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 5.316858532713964,
+      "m_rmse": 6.612676940357666,
+      "m_r2": 0.580055785577543,
+      "m_mape": 20.16445817178338,
+      "m_wape": 17.782685948937125,
+      "time_s": 3.596888888888889
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 5.19011905150796,
+      "m_rmse": 6.417590450584052,
+      "m_r2": 0.6125262013794882,
+      "m_mape": 19.136961430205425,
+      "m_wape": 17.00417609896509,
+      "time_s": 3.618444444444444
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.581056291355868,
+      "m_rmse": 5.7890728499228885,
+      "m_r2": 0.7270690340391487,
+      "m_mape": 17.198137557084763,
+      "m_wape": 13.99662872361555,
+      "time_s": 3.052
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+agents",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.383382407938373,
+      "m_rmse": 5.567859878697989,
+      "m_r2": 0.7489550389975432,
+      "m_mape": 16.785971836817183,
+      "m_wape": 13.163504753272896,
+      "time_s": 3.118777777777778
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 5.324276460448947,
+      "m_rmse": 6.609233189523855,
+      "m_r2": 0.5819064047418349,
+      "m_mape": 20.306800777929137,
+      "m_wape": 17.85058562325723,
+      "time_s": 0.08066666666666666
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 5.182169048476169,
+      "m_rmse": 6.418062942333125,
+      "m_r2": 0.6120781881712252,
+      "m_mape": 19.039076344483476,
+      "m_wape": 16.930563153345645,
+      "time_s": 0.07788888888888888
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.5931026511986515,
+      "m_rmse": 5.794395473682547,
+      "m_r2": 0.7251955742051075,
+      "m_mape": 17.35564637265576,
+      "m_wape": 14.113011371098786,
+      "time_s": 0.08733333333333333
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.38752292458447,
+      "m_rmse": 5.574852911460247,
+      "m_r2": 0.7465282033518925,
+      "m_mape": 16.7533350077221,
+      "m_wape": 13.203507231210889,
+      "time_s": 0.08677777777777777
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 5.826675534447256,
+      "m_rmse": 7.217452965228842,
+      "m_r2": 0.4851054958798722,
+      "m_mape": 22.217850478138857,
+      "m_wape": 19.90788431794299,
+      "time_s": 0.035666666666666666
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 6.069308348906936,
+      "m_rmse": 7.570438450653147,
+      "m_r2": 0.523216838763972,
+      "m_mape": 21.23364725622795,
+      "m_wape": 18.77862449217703,
+      "time_s": 0.034777777777777776
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.99013427604263,
+      "m_rmse": 6.395370567444442,
+      "m_r2": 0.6597587905489036,
+      "m_mape": 17.76586374648959,
+      "m_wape": 15.313970674844237,
+      "time_s": 0.03888888888888889
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.52839496300747,
+      "m_rmse": 5.781219002377921,
+      "m_r2": 0.7279292587423617,
+      "m_mape": 16.66550268716893,
+      "m_wape": 13.650002526428523,
+      "time_s": 0.04088888888888889
+    }
+  ],
+  "tests": [
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.8450572784893133,
+      "mean_b": 0.8107163607336836,
+      "mean_improvement": 0.0343409177556298,
+      "ci_improvement": {
+        "mean": 0.0343409177556298,
+        "low": -0.002067941559740503,
+        "high": 0.06509043254649055,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 29.0,
+        "pvalue": 0.0016002655029296875,
+        "n": 21
+      },
+      "ttest": {
+        "t": 1.9667099885210373,
+        "pvalue": 0.06324742001299281,
+        "n": 21
+      },
+      "win_rate": 0.8095238095238095
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.8304059164005456,
+      "mean_b": 0.8107163607336836,
+      "mean_improvement": 0.019689555666862035,
+      "ci_improvement": {
+        "mean": 0.019689555666862035,
+        "low": -0.014629789053585494,
+        "high": 0.05186153725809669,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 57.0,
+        "pvalue": 0.042079925537109375,
+        "n": 21
+      },
+      "ttest": {
+        "t": 1.1086184227360112,
+        "pvalue": 0.2807487687427272,
+        "n": 21
+      },
+      "win_rate": 0.7619047619047619
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.8304059164005456,
+      "mean_b": 0.8450572784893133,
+      "mean_improvement": -0.014651362088767763,
+      "ci_improvement": {
+        "mean": -0.014651362088767763,
+        "low": -0.04642568148893109,
+        "high": 0.013672815661587859,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 94.5,
+        "pvalue": 0.45274988167944186,
+        "n": 21
+      },
+      "ttest": {
+        "t": -0.9202110782562841,
+        "pvalue": 0.36842915453827985,
+        "n": 21
+      },
+      "win_rate": 0.14285714285714285
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.8649679785613665,
+      "mean_b": 0.8323907926409472,
+      "mean_improvement": 0.032577185920419485,
+      "ci_improvement": {
+        "mean": 0.032577185920419485,
+        "low": 0.010273012941429292,
+        "high": 0.052527551280262014,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 27.0,
+        "pvalue": 0.0011758804321289062,
+        "n": 21
+      },
+      "ttest": {
+        "t": 2.895548716858379,
+        "pvalue": 0.008942419419511783,
+        "n": 21
+      },
+      "win_rate": 0.9047619047619048
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.8580954780758515,
+      "mean_b": 0.8323907926409472,
+      "mean_improvement": 0.02570468543490446,
+      "ci_improvement": {
+        "mean": 0.02570468543490446,
+        "low": -0.0011738586901570945,
+        "high": 0.04993464905953146,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 45.0,
+        "pvalue": 0.012691497802734375,
+        "n": 21
+      },
+      "ttest": {
+        "t": 1.9620278817703527,
+        "pvalue": 0.0638261434070535,
+        "n": 21
+      },
+      "win_rate": 0.8571428571428571
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.8580954780758515,
+      "mean_b": 0.8649679785613665,
+      "mean_improvement": -0.006872500485515026,
+      "ci_improvement": {
+        "mean": -0.006872500485515026,
+        "low": -0.02163402583545661,
+        "high": 0.0027591927714979213,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 105.0,
+        "pvalue": 0.700035561476879,
+        "n": 21
+      },
+      "ttest": {
+        "t": -0.981339512807889,
+        "pvalue": 0.3381482690839193,
+        "n": 21
+      },
+      "win_rate": 0.09523809523809523
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.8847585495100836,
+      "mean_b": 0.8610231871598107,
+      "mean_improvement": 0.02373536235027281,
+      "ci_improvement": {
+        "mean": 0.02373536235027281,
+        "low": 0.013606464933272742,
+        "high": 0.03430072977583184,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 13.5,
+        "pvalue": 0.0003921957868353611,
+        "n": 21
+      },
+      "ttest": {
+        "t": 4.358762579643692,
+        "pvalue": 0.0003041262638567184,
+        "n": 21
+      },
+      "win_rate": 0.8571428571428571
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.8767850977226931,
+      "mean_b": 0.8610231871598107,
+      "mean_improvement": 0.01576191056288241,
+      "ci_improvement": {
+        "mean": 0.01576191056288241,
+        "low": -0.0007234834790085663,
+        "high": 0.030303203404440097,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 47.0,
+        "pvalue": 0.01578044891357422,
+        "n": 21
+      },
+      "ttest": {
+        "t": 1.9583338085451836,
+        "pvalue": 0.06428605823424297,
+        "n": 21
+      },
+      "win_rate": 0.8095238095238095
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.8767850977226931,
+      "mean_b": 0.8847585495100836,
+      "mean_improvement": -0.0079734517873904,
+      "ci_improvement": {
+        "mean": -0.0079734517873904,
+        "low": -0.022120524757992772,
+        "high": 0.00036467156032373083,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 104.5,
+        "pvalue": 0.6790152107524225,
+        "n": 21
+      },
+      "ttest": {
+        "t": -1.2692185400852818,
+        "pvalue": 0.218935063166291,
+        "n": 21
+      },
+      "win_rate": 0.047619047619047616
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.8933187284580203,
+      "mean_b": 0.8815416638308151,
+      "mean_improvement": 0.011777064627205222,
+      "ci_improvement": {
+        "mean": 0.011777064627205222,
+        "low": -8.150519046875553e-05,
+        "high": 0.02151892089401526,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 26.0,
+        "pvalue": 0.0010023117065429688,
+        "n": 21
+      },
+      "ttest": {
+        "t": 2.0563165979382503,
+        "pvalue": 0.0530369069486117,
+        "n": 21
+      },
+      "win_rate": 0.8571428571428571
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.8882230460514138,
+      "mean_b": 0.8815416638308151,
+      "mean_improvement": 0.006681382220598447,
+      "ci_improvement": {
+        "mean": 0.006681382220598447,
+        "low": -0.00786677369226374,
+        "high": 0.018221557218196984,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 46.0,
+        "pvalue": 0.014165878295898438,
+        "n": 21
+      },
+      "ttest": {
+        "t": 0.975193695069572,
+        "pvalue": 0.34111276873294677,
+        "n": 21
+      },
+      "win_rate": 0.8095238095238095
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "roc_auc",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.8882230460514138,
+      "mean_b": 0.8933187284580203,
+      "mean_improvement": -0.005095682406606776,
+      "ci_improvement": {
+        "mean": -0.005095682406606776,
+        "low": -0.015742676246877932,
+        "high": 0.0012987012987013017,
+        "n": 21
+      },
+      "wilcoxon": {
+        "w": 104.5,
+        "pvalue": 0.6790152107524225,
+        "n": 21
+      },
+      "ttest": {
+        "t": -1.0166703860634616,
+        "pvalue": 0.32145219276509557,
+        "n": 21
+      },
+      "win_rate": 0.047619047619047616
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.581906404741835,
+      "mean_b": 0.4851054958798723,
+      "mean_improvement": 0.09680090886196269,
+      "ci_improvement": {
+        "mean": 0.09680090886196269,
+        "low": 0.02077278873201412,
+        "high": 0.1855430988511869,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 1.5,
+        "pvalue": 0.015625,
+        "n": 9
+      },
+      "ttest": {
+        "t": 2.160033920509386,
+        "pvalue": 0.06278607770911032,
+        "n": 9
+      },
+      "win_rate": 0.7777777777777778
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.5800557855775431,
+      "mean_b": 0.4851054958798723,
+      "mean_improvement": 0.09495028969767084,
+      "ci_improvement": {
+        "mean": 0.09495028969767084,
+        "low": 0.02077278873201412,
+        "high": 0.17981140275507515,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 1.5,
+        "pvalue": 0.015625,
+        "n": 9
+      },
+      "ttest": {
+        "t": 2.1837917643282947,
+        "pvalue": 0.06050376729540579,
+        "n": 9
+      },
+      "win_rate": 0.7777777777777778
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.5800557855775431,
+      "mean_b": 0.581906404741835,
+      "mean_improvement": -0.0018506191642918433,
+      "ci_improvement": {
+        "mean": -0.0018506191642918433,
+        "low": -0.006905372889784693,
+        "high": 0.0013535153969091625,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 22.0,
+        "pvalue": 1.0,
+        "n": 9
+      },
+      "ttest": {
+        "t": -0.7709960592652084,
+        "pvalue": 0.4628700824703717,
+        "n": 9
+      },
+      "win_rate": 0.1111111111111111
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.6120781881712252,
+      "mean_b": 0.5232168387639718,
+      "mean_improvement": 0.0888613494072533,
+      "ci_improvement": {
+        "mean": 0.0888613494072533,
+        "low": 0.009807165537899511,
+        "high": 0.1812018218976102,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 1.5,
+        "pvalue": 0.015625,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.9546328342750565,
+        "pvalue": 0.08637163403913774,
+        "n": 9
+      },
+      "win_rate": 0.7777777777777778
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.6125262013794882,
+      "mean_b": 0.5232168387639718,
+      "mean_improvement": 0.0893093626155163,
+      "ci_improvement": {
+        "mean": 0.0893093626155163,
+        "low": 0.011486916727978833,
+        "high": 0.18173352612748722,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 1.5,
+        "pvalue": 0.015625,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.9876618898206475,
+        "pvalue": 0.0820695662147368,
+        "n": 9
+      },
+      "win_rate": 0.7777777777777778
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.6125262013794882,
+      "mean_b": 0.6120781881712252,
+      "mean_improvement": 0.0004480132082629811,
+      "ci_improvement": {
+        "mean": 0.0004480132082629811,
+        "low": -0.0034662486293960035,
+        "high": 0.004810288254184947,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 22.0,
+        "pvalue": 1.0,
+        "n": 9
+      },
+      "ttest": {
+        "t": 0.21433512782553363,
+        "pvalue": 0.8356480780534313,
+        "n": 9
+      },
+      "win_rate": 0.1111111111111111
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.7251955742051076,
+      "mean_b": 0.6597587905489036,
+      "mean_improvement": 0.06543678365620396,
+      "ci_improvement": {
+        "mean": 0.06543678365620396,
+        "low": 0.0007679670743209267,
+        "high": 0.1446090829044094,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 7.5,
+        "pvalue": 0.078125,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.6940207533725262,
+        "pvalue": 0.12871205657336468,
+        "n": 9
+      },
+      "win_rate": 0.6666666666666666
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.7270690340391487,
+      "mean_b": 0.6597587905489036,
+      "mean_improvement": 0.06731024349024511,
+      "ci_improvement": {
+        "mean": 0.06731024349024511,
+        "low": 0.0007679670821983711,
+        "high": 0.1502294614612395,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 7.5,
+        "pvalue": 0.078125,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.6710980091789867,
+        "pvalue": 0.13324708314513153,
+        "n": 9
+      },
+      "win_rate": 0.6666666666666666
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.7270690340391487,
+      "mean_b": 0.7251955742051076,
+      "mean_improvement": 0.0018734598340411418,
+      "ci_improvement": {
+        "mean": 0.0018734598340411418,
+        "low": 0.0,
+        "high": 0.005620378871927876,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 14.0,
+        "pvalue": 0.5,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.0000001892141115,
+        "pvalue": 0.34659342095421025,
+        "n": 9
+      },
+      "win_rate": 0.2222222222222222
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.7465282033518925,
+      "mean_b": 0.7279292587423617,
+      "mean_improvement": 0.018598944609530845,
+      "ci_improvement": {
+        "mean": 0.018598944609530845,
+        "low": -0.010815148267194149,
+        "high": 0.051711076705865264,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 11.5,
+        "pvalue": 0.21875,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.1012633263646647,
+        "pvalue": 0.3028097169430269,
+        "n": 9
+      },
+      "win_rate": 0.5555555555555556
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "baseline",
+      "mean_a": 0.7489550389975432,
+      "mean_b": 0.7279292587423617,
+      "mean_improvement": 0.021025780255181585,
+      "ci_improvement": {
+        "mean": 0.021025780255181585,
+        "low": -0.010815147280636475,
+        "high": 0.05862453724315061,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 11.5,
+        "pvalue": 0.21875,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.1114947536109536,
+        "pvalue": 0.29864013556905783,
+        "n": 9
+      },
+      "win_rate": 0.5555555555555556
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "r2",
+      "a": "+agents",
+      "b": "+rag",
+      "mean_a": 0.7489550389975432,
+      "mean_b": 0.7465282033518925,
+      "mean_improvement": 0.0024268356456507404,
+      "ci_improvement": {
+        "mean": 0.0024268356456507404,
+        "low": 0.0,
+        "high": 0.007280505950394546,
+        "n": 9
+      },
+      "wilcoxon": {
+        "w": 14.0,
+        "pvalue": 0.5,
+        "n": 9
+      },
+      "ttest": {
+        "t": 1.000000228667636,
+        "pvalue": 0.34659340299437136,
+        "n": 9
+      },
+      "win_rate": 0.2222222222222222
+    }
+  ],
+  "dm": [
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 8,
+      "a_better_significant": 6
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 9,
+      "a_better_significant": 7
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 21,
+      "significant": 2,
+      "a_better_significant": 1
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 6,
+      "a_better_significant": 6
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 6,
+      "a_better_significant": 5
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 21,
+      "significant": 2,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 6,
+      "a_better_significant": 6
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 7,
+      "a_better_significant": 6
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 21,
+      "significant": 1,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 4,
+      "a_better_significant": 4
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 21,
+      "significant": 5,
+      "a_better_significant": 4
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 21,
+      "significant": 1,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 2,
+      "a_better_significant": 2
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 2,
+      "a_better_significant": 2
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.1,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 9,
+      "significant": 0,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 4,
+      "a_better_significant": 4
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 4,
+      "a_better_significant": 4
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.2,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 9,
+      "significant": 0,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 2,
+      "a_better_significant": 2
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 2,
+      "a_better_significant": 2
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 0.5,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 9,
+      "significant": 0,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 2,
+      "a_better_significant": 2
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+agents",
+      "b": "baseline",
+      "datasets": 9,
+      "significant": 2,
+      "a_better_significant": 2
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+agents",
+      "b": "+rag",
+      "datasets": 9,
+      "significant": 0,
+      "a_better_significant": 0
+    }
+  ],
+  "agents": {
+    "runs": 120,
+    "avg_iterations": 1.3583333333333334,
+    "hitl_rate": 0.14166666666666666,
+    "avg_time_s": 8.161175,
+    "avg_tokens": 4282.591666666666,
+    "avg_llm_calls": 2.716666666666667,
+    "selection_modes": {
+      "native": 96,
+      "carried": 23,
+      "forced": 1
+    },
+    "models": {
+      "fit_logistic_regression": 53,
+      "fit_ridge_regression": 28,
+      "fit_tabular_xgboost": 20,
+      "fit_random_forest": 19
+    }
+  },
+  "errors": 0,
+  "data_warnings": [
+    "eval_0001: n_train=23 < 50 — оценки нестабильны",
+    "eval_0001: n_train=46 < 50 — оценки нестабильны",
+    "eval_0002: n_train=38 < 50 — оценки нестабильны",
+    "eval_0005: n_train=25 < 50 — оценки нестабильны",
+    "eval_0006: n_train=21 < 50 — оценки нестабильны",
+    "eval_0006: n_train=42 < 50 — оценки нестабильны",
+    "eval_0008: n_train=30 < 50 — оценки нестабильны",
+    "eval_0010: n_train=16 < 50 — оценки нестабильны",
+    "eval_0010: n_train=33 < 50 — оценки нестабильны",
+    "eval_0011: n_train=29 < 50 — оценки нестабильны",
+    "eval_0012: n_train=18 < 50 — оценки нестабильны",
+    "eval_0012: n_train=37 < 50 — оценки нестабильны",
+    "eval_0015: n_train=38 < 50 — оценки нестабильны",
+    "eval_0018: n_train=18 < 50 — оценки нестабильны",
+    "eval_0018: n_train=36 < 50 — оценки нестабильны",
+    "eval_0019: n_train=32 < 50 — оценки нестабильны",
+    "eval_0021: n_train=26 < 50 — оценки нестабильны",
+    "eval_0022: n_train=25 < 50 — оценки нестабильны",
+    "eval_0027: n_train=12 < 50 — оценки нестабильны",
+    "eval_0027: n_train=24 < 50 — оценки нестабильны",
+    "eval_0028: n_train=34 < 50 — оценки нестабильны"
+  ],
+  "config": {
+    "num_series": 30,
+    "horizons": [
+      20
+    ],
+    "holdouts": [
+      0.2
+    ],
+    "data_fractions": [
+      0.1,
+      0.2,
+      0.5,
+      1.0
+    ],
+    "modes": [
+      "baseline",
+      "+rag",
+      "+agents"
+    ],
+    "seed": 0,
+    "save_db": true,
+    "llm_provider": "mock",
+    "rag_docs": 2844,
+    "elapsed_s": 1013.2
+  }
+}

@@ -1,0 +1,503 @@
+{
+  "groups": [
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "m_accuracy": 0.8124850544892489,
+      "m_f1": 0.7197411457887064,
+      "m_precision": 0.6810931318594984,
+      "m_recall": 0.786682747637339,
+      "m_brier": 0.12443066956438573,
+      "m_ece": 0.13553801175639207,
+      "m_roc_auc": 0.896568417358578,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.19133333333333333
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": 0.8195739259980357,
+      "m_f1": 0.7270304833016988,
+      "m_precision": 0.7003784053206198,
+      "m_recall": 0.7795660809570356,
+      "m_brier": 0.12423469325731727,
+      "m_ece": 0.11649400217471138,
+      "m_roc_auc": 0.8939438896005333,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.1938181818181818
+    },
+    {
+      "problem_type": "classification",
+      "mode": "+rag",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "m_accuracy": 0.8259308830720977,
+      "m_f1": 0.7245412240945956,
+      "m_precision": 0.7054909909905128,
+      "m_recall": 0.7704182631332368,
+      "m_brier": 0.12442813517533777,
+      "m_ece": 0.10267824533955658,
+      "m_roc_auc": 0.8928362465424984,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.17806060606060606
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "m_accuracy": 0.8027424684088086,
+      "m_f1": 0.7079140400663216,
+      "m_precision": 0.6652091203039134,
+      "m_recall": 0.7736473578182183,
+      "m_brier": 0.1378945686879824,
+      "m_ece": 0.13795234693507905,
+      "m_roc_auc": 0.8752601551093573,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.06581818181818182
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": 0.8075766270691496,
+      "m_f1": 0.7108915491633758,
+      "m_precision": 0.6724693523072612,
+      "m_recall": 0.7686959878796906,
+      "m_brier": 0.13413480945386858,
+      "m_ece": 0.1165351032568756,
+      "m_roc_auc": 0.8792482577995981,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.06454545454545454
+    },
+    {
+      "problem_type": "classification",
+      "mode": "baseline",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "m_accuracy": 0.8106706127167408,
+      "m_f1": 0.7128318948509289,
+      "m_precision": 0.67022266117876,
+      "m_recall": 0.7696021200473488,
+      "m_brier": 0.1346558537192102,
+      "m_ece": 0.09686641814404516,
+      "m_roc_auc": 0.8774208341674454,
+      "m_mae": null,
+      "m_rmse": null,
+      "m_r2": null,
+      "m_mape": null,
+      "m_wape": null,
+      "time_s": 0.06
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.651604117955351,
+      "m_rmse": 5.88810845467647,
+      "m_r2": 0.7005673552229857,
+      "m_mape": 21.92543866153215,
+      "m_wape": 13.376575131101616,
+      "time_s": 0.09464705882352942
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.896472229440489,
+      "m_rmse": 6.221056999498314,
+      "m_r2": 0.6887712195837978,
+      "m_mape": 19.384289581995745,
+      "m_wape": 13.924994301769035,
+      "time_s": 0.09711764705882353
+    },
+    {
+      "problem_type": "regression",
+      "mode": "+rag",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.966091783235446,
+      "m_rmse": 6.292705359784973,
+      "m_r2": 0.6986711020391048,
+      "m_mape": 20.96784650788617,
+      "m_wape": 14.48817372202549,
+      "time_s": 0.10411764705882354
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.709164882972402,
+      "m_rmse": 5.995762058347726,
+      "m_r2": 0.690271544348189,
+      "m_mape": 21.97973029318741,
+      "m_wape": 13.43773977137182,
+      "time_s": 0.04105882352941176
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 4.974363787116808,
+      "m_rmse": 6.34971705781944,
+      "m_r2": 0.6751743138586528,
+      "m_mape": 19.256805697593297,
+      "m_wape": 14.118219768436216,
+      "time_s": 0.04152941176470588
+    },
+    {
+      "problem_type": "regression",
+      "mode": "baseline",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "m_accuracy": null,
+      "m_f1": null,
+      "m_precision": null,
+      "m_recall": null,
+      "m_brier": null,
+      "m_ece": null,
+      "m_roc_auc": null,
+      "m_mae": 5.207592172290689,
+      "m_rmse": 6.613625271210397,
+      "m_r2": 0.6651264329884303,
+      "m_mape": 21.163244341758528,
+      "m_wape": 15.147115415352078,
+      "time_s": 0.038294117647058826
+    }
+  ],
+  "tests": [
+    {
+      "problem_type": "classification",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.896568417358578,
+      "mean_b": 0.8752601551093573,
+      "mean_improvement": 0.021308262249220555,
+      "ci_improvement": {
+        "mean": 0.021308262249220555,
+        "low": 0.009468070161412863,
+        "high": 0.03637228163080271,
+        "n": 33
+      },
+      "wilcoxon": {
+        "w": 100.0,
+        "pvalue": 0.00125853090342709,
+        "n": 33
+      },
+      "ttest": {
+        "t": 3.0441661117263576,
+        "pvalue": 0.004639229683883023,
+        "n": 33
+      },
+      "win_rate": 0.7575757575757576
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.8939438896005333,
+      "mean_b": 0.8792482577995983,
+      "mean_improvement": 0.014695631800935024,
+      "ci_improvement": {
+        "mean": 0.014695631800935024,
+        "low": 0.002909427772601241,
+        "high": 0.029549703538894554,
+        "n": 33
+      },
+      "wilcoxon": {
+        "w": 84.5,
+        "pvalue": 0.000461615837860138,
+        "n": 33
+      },
+      "ttest": {
+        "t": 2.1437819146891104,
+        "pvalue": 0.03975040576682377,
+        "n": 33
+      },
+      "win_rate": 0.8181818181818182
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "metric": "roc_auc",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.8928362465424983,
+      "mean_b": 0.8774208341674455,
+      "mean_improvement": 0.01541541237505284,
+      "ci_improvement": {
+        "mean": 0.01541541237505284,
+        "low": 0.008037777597684408,
+        "high": 0.022660528716501087,
+        "n": 33
+      },
+      "wilcoxon": {
+        "w": 32.0,
+        "pvalue": 6.437767297029495e-07,
+        "n": 33
+      },
+      "ttest": {
+        "t": 3.980128852798616,
+        "pvalue": 0.0003703333300887811,
+        "n": 33
+      },
+      "win_rate": 0.9696969696969697
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.7005673552229856,
+      "mean_b": 0.690271544348189,
+      "mean_improvement": 0.010295810874796741,
+      "ci_improvement": {
+        "mean": 0.010295810874796741,
+        "low": -0.011760933195304635,
+        "high": 0.036330706414495754,
+        "n": 17
+      },
+      "wilcoxon": {
+        "w": 34.5,
+        "pvalue": 0.04675873873444786,
+        "n": 17
+      },
+      "ttest": {
+        "t": 0.8062528756216886,
+        "pvalue": 0.43191809780715845,
+        "n": 17
+      },
+      "win_rate": 0.7058823529411765
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.6887712195837978,
+      "mean_b": 0.6751743138586527,
+      "mean_improvement": 0.013596905725145002,
+      "ci_improvement": {
+        "mean": 0.013596905725145002,
+        "low": -0.0013987447537803623,
+        "high": 0.0312061441784746,
+        "n": 17
+      },
+      "wilcoxon": {
+        "w": 29.5,
+        "pvalue": 0.026067633953717202,
+        "n": 17
+      },
+      "ttest": {
+        "t": 1.50151363261447,
+        "pvalue": 0.15269949671421237,
+        "n": 17
+      },
+      "win_rate": 0.7058823529411765
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "metric": "r2",
+      "a": "+rag",
+      "b": "baseline",
+      "mean_a": 0.6986711020391048,
+      "mean_b": 0.6651264329884303,
+      "mean_improvement": 0.03354466905067451,
+      "ci_improvement": {
+        "mean": 0.03354466905067451,
+        "low": 0.007097853119543452,
+        "high": 0.06802595703141945,
+        "n": 17
+      },
+      "wilcoxon": {
+        "w": 15.0,
+        "pvalue": 0.0035805953436968386,
+        "n": 17
+      },
+      "ttest": {
+        "t": 1.9171369794717488,
+        "pvalue": 0.07325448569238806,
+        "n": 17
+      },
+      "win_rate": 0.7647058823529411
+    }
+  ],
+  "dm": [
+    {
+      "problem_type": "classification",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 33,
+      "significant": 5,
+      "a_better_significant": 5
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 33,
+      "significant": 5,
+      "a_better_significant": 5
+    },
+    {
+      "problem_type": "classification",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 33,
+      "significant": 10,
+      "a_better_significant": 9
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.1,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 17,
+      "significant": 0,
+      "a_better_significant": 0
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.2,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 17,
+      "significant": 3,
+      "a_better_significant": 3
+    },
+    {
+      "problem_type": "regression",
+      "holdout": 0.5,
+      "fraction": 1.0,
+      "a": "+rag",
+      "b": "baseline",
+      "datasets": 17,
+      "significant": 9,
+      "a_better_significant": 9
+    }
+  ],
+  "agents": {},
+  "errors": 0,
+  "data_warnings": [
+    "eval_0001: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0006: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0010: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0027: n_test=16 < 20 — широкие доверительные интервалы",
+    "eval_0027: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0028: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0030: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0034: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0047: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен",
+    "eval_0049: в тесте < 10 объектов миноритарного класса — ROC-AUC ненадёжен"
+  ],
+  "config": {
+    "num_series": 50,
+    "horizons": [
+      10,
+      20,
+      50
+    ],
+    "holdouts": [
+      0.1,
+      0.2,
+      0.5
+    ],
+    "data_fractions": [
+      1.0
+    ],
+    "modes": [
+      "baseline",
+      "+rag"
+    ],
+    "seed": 0,
+    "save_db": true,
+    "llm_provider": "mock",
+    "rag_docs": 2844,
+    "elapsed_s": 35.6
+  }
+}
