@@ -1,17 +1,28 @@
 """Источники данных: UCI Student Performance и синтетический генератор в стиле OULAD."""
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 from backend.core.config import get_settings
+from backend.tabular.preprocessing import STUDENT_GROUP
 
 UCI_URL = "https://archive.ics.uci.edu/static/public/320/student+performance.zip"
 
 UCI_NUMERIC = ["age", "Medu", "Fedu", "traveltime", "studytime", "failures", "famrel", "freetime", "goout",
                "Dalc", "Walc", "health", "absences", "G1", "G2", "G3"]
+UCI_MATCH_COLUMNS = ("school", "sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu",
+                     "Mjob", "Fjob", "reason", "nursery", "internet")
+
+
+def _uci_group(values: tuple[object, ...]) -> str:
+    # The matching columns follow the merge script shipped with the UCI dataset.
+    profile = json.dumps(values, ensure_ascii=True, separators=(",", ":"))
+    return hashlib.sha256(profile.encode()).hexdigest()
 
 
 def load_uci(subject: str = "both", raw_dir: Path | None = None) -> pd.DataFrame:
@@ -24,6 +35,7 @@ def load_uci(subject: str = "both", raw_dir: Path | None = None) -> pd.DataFrame
             raise FileNotFoundError(f"{path} не найден — запустите scripts/download_data.py")
         df = pd.read_csv(path, sep=";")
         df.insert(0, "subject", subj)
+        df[STUDENT_GROUP] = [_uci_group(row) for row in df[list(UCI_MATCH_COLUMNS)].itertuples(index=False, name=None)]
         parts.append(df)
     df = pd.concat(parts, ignore_index=True)
     for c in UCI_NUMERIC:

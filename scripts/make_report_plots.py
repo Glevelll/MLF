@@ -17,6 +17,7 @@ import pandas as pd  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 COLORS = {"baseline": "#7f7f7f", "+rag": "#1f77b4", "+agents": "#d62728", "+foundation": "#2ca02c"}
 PRIMARY = {"classification": "m_roc_auc", "regression": "m_r2"}
+METRIC_LABELS = {"classification": "ROC-AUC", "regression": "R²"}
 
 
 def latest_run() -> Path:
@@ -46,9 +47,9 @@ def main(run: Path, prefix: str = "") -> list[Path]:
         ax.set_xscale("log")
         ax.set_xticks(sorted(rows.fraction.unique()))
         ax.set_xticklabels([f"{int(f * 100)}%" for f in sorted(rows.fraction.unique())])
-        ax.set_title(f"{pt}: {m[2:]} vs объём обучающих данных")
+        ax.set_title(f"{METRIC_LABELS[pt]} при разном объёме обучения")
         ax.set_xlabel("доля обучающей выборки")
-        ax.set_ylabel(m[2:])
+        ax.set_ylabel(METRIC_LABELS[pt])
         ax.grid(alpha=0.3)
         ax.legend()
     fig.tight_layout()
@@ -91,8 +92,8 @@ def main(run: Path, prefix: str = "") -> list[Path]:
     tests = pd.DataFrame(summary.get("tests", []))
     if len(tests):
         tests = tests[tests["b"] == "baseline"]
-        fig, ax = plt.subplots(figsize=(8, 4))
-        labels = [f"{r.problem_type[:5]} {r.a} · данные {int(r.fraction * 100)}% · holdout {int(r.holdout * 100)}%"
+        fig, ax = plt.subplots(figsize=(9, max(4, 0.27 * len(tests) + 1)))
+        labels = [f"{METRIC_LABELS[r.problem_type]} {r.a} · обучение {int(r.fraction * 100)}% · тест {int(r.holdout * 100)}%"
                   for r in tests.itertuples()]
         lo = [r["ci_improvement"]["low"] for r in tests.to_dict("records")]
         hi = [r["ci_improvement"]["high"] for r in tests.to_dict("records")]

@@ -81,11 +81,19 @@ async def test_forecast_full_cycle_with_hitl_reviews(client):
     dl = await client.get(f"/api/v1/forecast/{task_id}/predictions", headers=teacher)
     assert dl.status_code == 200 and b"risk_probability" in dl.content
     tasks = (await client.get("/api/v1/forecast/", headers=teacher)).json()
-    assert any(t["task_id"] == task_id for t in tasks)
+    listed = next(t for t in tasks if t["task_id"] == task_id)
+    assert listed["source"] == "students.csv" and listed["target_column"] == "dropout"
+    data_path = f"/api/v1/forecast/{task_id}/data"
+    source = (await client.get(data_path, headers=teacher, params={"subset": "new", "offset": 2, "limit": 3})).json()
+    assert source["source"] == "students.csv" and source["known_rows"] == 315 and source["new_rows"] == 15
+    assert source["matching_rows"] == 15 and len(source["rows"]) == 3 and "dropout" not in source["features"]
+    assert all(row[source["columns"].index("dropout")] is None for row in source["rows"])
 
     # другой пользователь не видит задачу
     other = await auth(client, "other")
     assert (await client.get(f"/api/v1/forecast/{task_id}/status", headers=other)).status_code == 403
+    assert (await client.get(data_path, headers=other)).status_code == 403
+    assert (await client.get("/api/v1/kb/records", headers=other)).status_code == 403
     assert (await client.get("/api/v1/hitl/queue", headers=other)).status_code == 403
 
     # HITL по студентам: роль editor
@@ -106,6 +114,8 @@ async def test_forecast_full_cycle_with_hitl_reviews(client):
     assert isinstance(stats, dict)
     kb = (await client.get("/api/v1/kb/stats", headers=admin)).json()
     assert "glossary" in kb
+    records = (await client.get("/api/v1/kb/records?kind=student_case&limit=1", headers=admin)).json()
+    assert records["total"] == kb["knowledge_base"].get("student_case", 0) and len(records["rows"]) <= 1
     am = (await client.get("/api/v1/logs/agent-metrics", headers=admin)).json()
     assert am["tasks_finished"] >= 1 and am["llm_calls"] >= 1
     calls = (await client.get(f"/api/v1/logs/llm-calls?request_id={task_id}&agent=Critic", headers=admin)).json()
@@ -175,6 +185,7 @@ async def test_forecast_reject_and_errors(client):
 
 
 @needs_uci
+@pytest.mark.usefixtures("evaluation_kb")
 async def test_builtin_dataset_and_evaluate(client):
     user = await auth(client, "evaluser")
     r = await client.post("/api/v1/forecast/", headers=user,
@@ -198,6 +209,15 @@ async def test_builtin_dataset_and_evaluate(client):
     job = (await client.get(f"/api/v1/evaluate/batch/{b.json()['task_id']}", headers=user)).json()
     assert job["status"] == "completed" and job["summary"]["groups"]
     assert (await client.get("/api/v1/evaluate/batch/nope", headers=user)).status_code == 404
+    history = (await client.get("/api/v1/evaluate/history", headers=user)).json()
+    comparison_id = cmp_.json()["comparison_id"]
+    assert history["comparisons"][0]["id"] == comparison_id
+    assert history["batches"][0]["id"] == job["job_id"] and history["batches"][0]["status"] == "completed"
+    saved = await client.get(f"/api/v1/evaluate/compare/{comparison_id}", headers=user)
+    assert saved.status_code == 200 and saved.json() == cmp_.json()
+    assert (await client.get("/api/v1/evaluate/compare/999999", headers=user)).status_code == 404
+    other = await auth(client, "other-evaluser")
+    assert (await client.get("/api/v1/evaluate/history", headers=other)).json()["batches"] == []
     res = (await client.get("/api/v1/evaluate/results", headers=user)).json()
     assert res["comparisons"] and res["evaluations"]
     s = (await client.get("/api/v1/kb/search?q=пропуски", headers=user)).json()

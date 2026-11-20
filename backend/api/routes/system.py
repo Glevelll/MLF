@@ -1,11 +1,13 @@
 """Системные эндпоинты: health, журналы LLM, агентные метрики, база знаний, переиндексация."""
 from __future__ import annotations
 
+from typing import Literal
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.api.deps import get_current_user, require_admin
+from backend.api.deps import get_current_user, require_admin, require_editor
 from backend.core.config import get_settings
 from backend.db.models import CacheEntry, Glossary, KnowledgeBase, LLMCall, Task, User
 from backend.db.session import get_session
@@ -69,6 +71,21 @@ async def kb_stats(_: User = Depends(get_current_user), session: AsyncSession = 
     cache = (await session.execute(select(func.count(CacheEntry.id), func.coalesce(func.sum(CacheEntry.hits), 0)))).one()
     return {"knowledge_base": {k: int(n) for k, n in kinds}, "glossary": int(gl), "index_docs": get_retriever().size,
             "cache_entries": int(cache[0]), "cache_hits": int(cache[1])}
+
+
+@router.get("/api/v1/kb/records")
+async def kb_records(kind: Literal["dataset_case", "student_case", "glossary"] = "dataset_case",
+                     offset: int = Query(0, ge=0), limit: int = Query(25, ge=1, le=50),
+                     _: User = Depends(require_editor), session: AsyncSession = Depends(get_session)) -> dict:
+    if kind == "glossary":
+        entries = select(Glossary.term, Glossary.definition, Glossary.category).order_by(Glossary.term)
+        count = select(func.count(Glossary.id))
+    else:
+        entries = select(KnowledgeBase.source_id, KnowledgeBase.description, KnowledgeBase.target_column,
+                         KnowledgeBase.best_model).where(KnowledgeBase.kind == kind).order_by(KnowledgeBase.id)
+        count = select(func.count(KnowledgeBase.id)).where(KnowledgeBase.kind == kind)
+    rows = (await session.execute(entries.offset(offset).limit(limit))).mappings().all()
+    return {"total": await session.scalar(count), "rows": [dict(row) for row in rows]}
 
 
 @router.get("/api/v1/kb/search")

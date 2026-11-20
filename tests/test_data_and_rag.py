@@ -32,6 +32,7 @@ from backend.retrieval.vector_index import InMemoryVectorIndex, QdrantVectorInde
 from backend.tabular.datasets import generate_synthetic, load_uci, read_table
 from backend.tabular.features import AVAILABLE_OPS, apply_feature_ops, score_columns
 from backend.tabular.preprocessing import (
+    STUDENT_GROUP,
     coerce_types,
     detect_id_columns,
     eda_summary,
@@ -40,7 +41,7 @@ from backend.tabular.preprocessing import (
     prepare_target,
     save_prepared,
 )
-from backend.tabular.training import fit_and_evaluate, occlusion_drivers
+from backend.tabular.training import cv_splits, fit_and_evaluate, holdout_indices, occlusion_drivers
 from tests.conftest import needs_uci
 
 
@@ -108,6 +109,24 @@ def test_load_uci():
     df = load_uci("mat")
     assert len(df) == 395 and pd.api.types.is_numeric_dtype(df["G1"]) and df["student_id"].is_unique
     assert len(load_uci("both")) == 1044
+
+
+@needs_uci
+def test_uci_student_groups_survive_preprocessing_and_stay_in_one_fold(tmp_path):
+    df = load_uci("both")
+    mat = df.loc[df.subject == "mat", STUDENT_GROUP].value_counts()
+    por = df.loc[df.subject == "por", STUDENT_GROUP].value_counts()
+    assert (mat * por).sum() == 382
+    data = prepare_dataframe(df, "G3", "classification", binarize_threshold=10)
+    assert STUDENT_GROUP not in data.feature_columns
+    path = tmp_path / "grouped.parquet"
+    save_prepared(data, path)
+    prepared = load_prepared(path, data.numeric_cols, data.categorical_cols, data.problem_type)
+    assert prepared.groups.equals(data.groups)
+    splits = [holdout_indices(prepared, 0.2, seed=42), *cv_splits(prepared, 5, seed=42)]
+    for train, test in splits:
+        assert set(prepared.groups.iloc[train]).isdisjoint(prepared.groups.iloc[test])
+        assert prepared.y.iloc[train].nunique() == prepared.y.iloc[test].nunique() == 2
 
 
 def test_load_uci_missing(tmp_path):

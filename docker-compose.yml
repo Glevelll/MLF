@@ -1,6 +1,5 @@
 # Продакшен-окружение: docker compose up -d --build
-# Первичная загрузка данных: docker compose run --rm app sh -c "python scripts/download_data.py && \
-#   python scripts/generate_glossary.py && python scripts/generate_knowledge_base.py && python scripts/import_data.py"
+# Импорт поставляемой базы знаний выполняет сервис init.
 x-app-env: &app-env
   MLF_APP_ENV: prod
   MLF_DATA_DIR: /app/data
@@ -12,18 +11,30 @@ x-app-env: &app-env
   MLF_QDRANT_URL: http://qdrant:6333
   MLF_LLM_PROVIDER: ${MLF_LLM_PROVIDER:-ollama}
   MLF_LLM_MODEL: ${MLF_LLM_MODEL:-qwen2.5:7b}
-  MLF_OLLAMA_URL: http://ollama:11434
+  MLF_OLLAMA_URL: ${MLF_OLLAMA_URL:-http://ollama:11434}
   MLF_JWT_SECRET: ${MLF_JWT_SECRET:?set MLF_JWT_SECRET in .env}
 
 services:
+  init:
+    build: .
+    command: python scripts/import_data.py
+    environment: *app-env
+    volumes: [appdata:/app/data]
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      qdrant: {condition: service_healthy}
   app:
     build: .
     environment: *app-env
     volumes: [appdata:/app/data]
     depends_on:
-      db: {condition: service_healthy}
-      redis: {condition: service_started}
-      qdrant: {condition: service_started}
+      init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
     restart: unless-stopped
 
   worker:
@@ -31,14 +42,16 @@ services:
     command: celery -A backend.worker.celery_app worker --loglevel=INFO --concurrency=2
     environment: *app-env
     volumes: [appdata:/app/data]
-    depends_on: [app, redis]
+    depends_on:
+      app: {condition: service_healthy}
     restart: unless-stopped
 
   beat:
     build: .
     command: celery -A backend.worker.celery_app beat --loglevel=INFO --schedule /tmp/celerybeat-schedule
     environment: *app-env
-    depends_on: [redis]
+    depends_on:
+      app: {condition: service_healthy}
     restart: unless-stopped
 
   frontend:
@@ -47,7 +60,13 @@ services:
     environment:
       MLF_API_URL: http://app:8000
       MLF_UI_HOST: 0.0.0.0
-    depends_on: [app]
+    depends_on:
+      app: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:7860/config"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
     restart: unless-stopped
 
   db:
@@ -64,10 +83,20 @@ services:
 
   redis:
     image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   qdrant:
     image: qdrant/qdrant:v1.12.4
     volumes: [qdrant:/qdrant/storage]
+    healthcheck:
+      test: ["CMD", "bash", "-c", ": > /dev/tcp/127.0.0.1/6333"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   ollama:
     image: ollama/ollama:0.5.7
@@ -77,9 +106,10 @@ services:
 
   nginx:
     image: nginx:1.27-alpine
-    ports: ["80:80"]
+    ports: ["${MLF_HTTP_PORT:-80}:80"]
     volumes: [./infrastructure/nginx.conf:/etc/nginx/conf.d/default.conf:ro]
-    depends_on: [app, frontend]
+    depends_on:
+      frontend: {condition: service_healthy}
 
 volumes:
   appdata:

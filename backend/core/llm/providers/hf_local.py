@@ -50,7 +50,7 @@ class HFLocalProvider(LLMProvider):
             text = text[-1].get("content", "")
         calls = parse_tool_calls(text) if tools else []
         tok = pipe.tokenizer
-        p_tok = len(tok.apply_chat_template(msgs, tokenize=True))
+        p_tok = len(tok.apply_chat_template(msgs, tokenize=True, return_dict=False, add_generation_prompt=True))
         c_tok = len(tok.encode(text))
         return LLMResponse(content=text, tool_calls=calls, model=self.model, provider=self.name,
                            prompt_tokens=p_tok, completion_tokens=c_tok,

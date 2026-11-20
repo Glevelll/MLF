@@ -8,7 +8,15 @@ import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, clone
 from sklearn.inspection import permutation_importance
-from sklearn.model_selection import KFold, StratifiedKFold, cross_val_predict, train_test_split
+from sklearn.model_selection import (
+    GroupKFold,
+    GroupShuffleSplit,
+    KFold,
+    StratifiedGroupKFold,
+    StratifiedKFold,
+    cross_val_predict,
+    train_test_split,
+)
 from sklearn.pipeline import Pipeline
 
 from backend.core.metrics import best_f1_threshold, clean, compute_metrics
@@ -46,10 +54,42 @@ def _predict(pipe: Pipeline, X: pd.DataFrame, problem_type: str) -> np.ndarray:
     return pipe.predict(X)
 
 
-def _splitter(problem_type: str, folds: int, seed: int):
-    if problem_type == "classification":
-        return StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed)
-    return KFold(n_splits=folds, shuffle=True, random_state=seed)
+def cv_splits(data: PreparedData, folds: int, seed: int):
+    classification = data.problem_type == "classification"
+    groups = data.groups
+    if groups is not None and groups.isna().any():
+        raise ValueError("Не указана группа для одной или нескольких размеченных строк")
+    if groups is not None:
+        folds = min(folds, groups.nunique())
+        if classification:
+            folds = min(folds, int(groups.groupby(data.y).nunique().min()))
+        splitter_cls = StratifiedGroupKFold if classification else GroupKFold
+    else:
+        if classification:
+            folds = min(folds, int(data.y.value_counts().min()))
+        splitter_cls = StratifiedKFold if classification else KFold
+    if folds < 2:
+        raise ValueError("Недостаточно данных для кросс-валидации")
+    return splitter_cls(n_splits=folds, shuffle=True, random_state=seed).split(data.X, data.y, groups)
+
+
+def holdout_indices(data: PreparedData, fraction: float, seed: int, *, test: bool = True):
+    indices = np.arange(len(data.X))
+    stratify = data.y if data.problem_type == "classification" else None
+    sizes = {"test_size" if test else "train_size": fraction}
+    if data.groups is None:
+        return train_test_split(indices, random_state=seed, stratify=stratify, **sizes)
+    if data.groups.isna().any():
+        raise ValueError("Не указана группа для одной или нескольких размеченных строк")
+    candidates = GroupShuffleSplit(n_splits=16, random_state=seed, **sizes).split(indices, groups=data.groups)
+    if stratify is None:
+        return next(candidates)
+    # Retain groups while approximating stratification for the requested holdout size.
+    prevalence = stratify.mean()
+    eligible = [(tr, te) for tr, te in candidates if stratify.iloc[tr].nunique() == stratify.iloc[te].nunique() == 2]
+    if not eligible:
+        raise ValueError("Не удалось разделить группы с сохранением обоих классов")
+    return min(eligible, key=lambda split: abs(stratify.iloc[split[0 if not test else 1]].mean() - prevalence))
 
 
 def fit_and_evaluate(estimator: BaseEstimator, data: PreparedData, *, threshold: float = 0.5, cv_folds: int = 5,
@@ -59,20 +99,15 @@ def fit_and_evaluate(estimator: BaseEstimator, data: PreparedData, *, threshold:
 
     t0 = time.perf_counter()
     X, y, ptype = data.X, data.y, data.problem_type
-    if ptype == "classification":
-        min_class = int(y.value_counts().min())
-        cv_folds = max(2, min(cv_folds, min_class))
     pipe = make_pipeline(estimator, data, scale)
     method = "predict_proba" if ptype == "classification" else "predict"
-    oof = cross_val_predict(clone(pipe), X, y, cv=_splitter(ptype, cv_folds, seed), method=method)
+    oof = cross_val_predict(clone(pipe), X, y, cv=cv_splits(data, cv_folds, seed), method=method)
     if ptype == "classification":
         oof = oof[:, 1]
     best_t = best_f1_threshold(y, oof)[0] if ptype == "classification" else None
     cv_metrics = compute_metrics(ptype, y, oof, threshold)
 
-    idx = np.arange(len(X))
-    strat = y if ptype == "classification" else None
-    tr, te = train_test_split(idx, test_size=test_size, random_state=seed, stratify=strat)
+    tr, te = holdout_indices(data, test_size, seed)
     holdout = clone(pipe).fit(X.iloc[tr], y.iloc[tr])
     test_pred = _predict(holdout, X.iloc[te], ptype)
     test_metrics = compute_metrics(ptype, y.iloc[te], test_pred, threshold)

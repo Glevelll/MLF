@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 warnings.filterwarnings("ignore")
 
 from joblib import Parallel, delayed  # noqa: E402
-from sklearn.model_selection import KFold, StratifiedKFold, cross_val_predict  # noqa: E402
+from sklearn.model_selection import cross_val_predict  # noqa: E402
 
 from backend.core.config import get_settings  # noqa: E402
 from backend.core.llm.tools import default_registry  # noqa: E402
@@ -35,7 +35,7 @@ from backend.data.knowledge_base import (  # noqa: E402
 from backend.evaluation.specs import build_dataset, make_specs, prepare_kwargs  # noqa: E402
 from backend.tabular.datasets import generate_synthetic, load_uci  # noqa: E402
 from backend.tabular.preprocessing import prepare_dataframe  # noqa: E402
-from backend.tabular.training import make_pipeline  # noqa: E402
+from backend.tabular.training import cv_splits, make_pipeline  # noqa: E402
 
 GRID = {
     "classification": [
@@ -116,8 +116,7 @@ def dataset_case(spec_dict: dict, seed: int = 42) -> dict | None:
     meta = TabularFeatureExtractor().extract(X=data.X, y=data.y, problem_type=ptype,
                                              numeric_cols=data.numeric_cols, categorical_cols=data.categorical_cols)
     pm = primary_metric(ptype)
-    cv = (StratifiedKFold(3, shuffle=True, random_state=seed) if ptype == "classification"
-          else KFold(3, shuffle=True, random_state=seed))
+    cv = list(cv_splits(data, 3, seed))
     scores = []
     for name, args in GRID[ptype]:
         tool = reg.get(name)

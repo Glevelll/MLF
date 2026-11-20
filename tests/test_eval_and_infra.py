@@ -10,6 +10,7 @@ import pytest
 from backend.data.cache import DbCache, MemoryCache, cleanup_expired, get_cache, make_key
 from backend.db.session import init_db
 from backend.evaluation.runner import (
+    build_evaluation_retriever,
     compare_models,
     evaluate_spec,
     per_sample_loss,
@@ -62,11 +63,13 @@ async def test_evaluate_spec_and_summarize(retriever, settings):
         rows += await evaluate_spec(s, modes=["baseline", "+rag", "+agents", "+foundation"], fractions=[0.5, 1.0],
                                     holdouts=[0.25], retriever=retriever, settings=settings)
     assert {r["mode"] for r in rows} == {"baseline", "+rag", "+agents"}  # foundation (TabPFN) не установлен
+    assert not [r for r in rows if "error" in r]
     ag = [r for r in rows if r["mode"] == "+agents"]
     assert all(r["a_iterations"] >= 1 and r["a_tokens"] > 0 for r in ag)
     summary = summarize(rows + [{"mode": "x", "error": "boom"}])
     assert summary["groups"] and summary["tests"] and summary["dm"] and summary["errors"] == 1
     assert summary["agents"]["runs"] == len(ag) and 0 <= summary["agents"]["hitl_rate"] <= 1
+    assert all(model.startswith("mock:") for model in summary["agents"]["llm_models_by_run"])
     assert summarize([])["groups"] == []
 
 
@@ -150,16 +153,30 @@ async def test_import_data(settings, small_kb):
     assert import_data.read_jsonl(kb / "missing.jsonl") == []
 
 
-async def test_run_eval_script(retriever, monkeypatch, tmp_path):
+@pytest.mark.usefixtures("evaluation_kb")
+async def test_run_eval_script(monkeypatch, tmp_path):
     import run_eval
 
     monkeypatch.setattr(run_eval, "ROOT", tmp_path)
-    monkeypatch.setattr(run_eval, "get_retriever", lambda: retriever)
     args = run_eval.parse_args(["--num-series", "2", "--modes", "baseline", "+rag", "--horizons", "25"])
     assert args.holdouts == [0.25]
     out = await run_eval.main_async(args)
     assert (out / "summary.json").exists() and (out / "report.md").read_text(encoding="utf-8").startswith("# Отчёт")
     assert run_eval.check_data(DatasetSpec("a", "s", "t", "classification"), 10, 5, "classification", 2)
+
+
+def test_evaluation_retriever_excludes_uci_and_matching_seeds(tmp_path, small_kb, settings):
+    cfg = settings.model_copy(update={"data_dir": tmp_path})
+    cfg.kb_dir.mkdir()
+    cases = [c for c in small_kb[0] if c["kind"] == "dataset_case"]
+    cases[1] = {**cases[1], "meta": {"source": "uci_both", "spec": {"source": "uci_both", "seed": 101}}}
+    (cfg.kb_dir / "dataset_cases.jsonl").write_text(
+        "\n".join(json.dumps(case, default=str) for case in cases), encoding="utf-8")
+    spec = DatasetSpec("eval", "synthetic", "dropout", "classification", seed=100)
+    index = build_evaluation_retriever([spec], cfg)
+    hits = index.search("модель прогнозирования", kind="dataset_case", k=10)
+    assert {hit.id for hit in hits} == {"dataset_t2", "dataset_t3"}
+    assert not cfg.index_dir.exists()
 
 
 async def test_seed_demo_user():

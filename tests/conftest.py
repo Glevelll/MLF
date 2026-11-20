@@ -1,6 +1,7 @@
 """Общие фикстуры: изолированный data_dir, SQLite во временной папке, mock LLM, inline-задачи."""
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import tempfile
@@ -101,7 +102,8 @@ def small_kb():
         cases.append({"source_id": f"dataset_t{i}", "kind": "dataset_case", "task_type": "tabular",
                       "problem_type": data.problem_type, "target_column": target, "series_features": meta,
                       "best_model": model, "hyperparams": {}, "metrics": metrics,
-                      "description": describe_dataset_case(meta, model, metrics, "synthetic"), "meta": {"source": "t"}})
+                      "description": describe_dataset_case(meta, model, metrics, "synthetic"),
+                      "meta": {"source": "synthetic", "spec": {"seed": 100 + i, "source": "synthetic"}}})
     df = generate_synthetic(60, seed=200)
     for row in df.to_dict("records"):
         prof = canonical_profile(row)
@@ -123,6 +125,15 @@ def retriever(small_kb, settings):
 
     cases, glossary = small_kb
     return build_retriever(cases, glossary, settings, persist=False)
+
+
+@pytest.fixture
+def evaluation_kb(small_kb, settings):
+    cases, _ = small_kb
+    path = settings.kb_dir / "dataset_cases.jsonl"
+    path.write_text("\n".join(json.dumps(c, default=str) for c in cases if c["kind"] == "dataset_case"),
+                    encoding="utf-8")
+    return path
 
 
 def read_csv(path) -> pd.DataFrame:

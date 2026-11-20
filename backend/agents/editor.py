@@ -72,7 +72,7 @@ class Editor(Agent):
             if merged != state.model_params:
                 state.model_params = merged
                 changed = True
-        elif call.name == "switch_model":
+        elif call.name == "switch_model" and not state.requested_model:
             mt = a["model_type"]
             allowed = ctx.registry.names(kind="model", task_type=state.task_type, problem_type=state.problem_type)
             if mt in allowed and mt != state.model_type:
@@ -84,6 +84,8 @@ class Editor(Agent):
 
     async def process(self, state: ForecastState, ctx: AgentContext) -> ForecastState:
         tools = ctx.registry.list(kind="editor")
+        if state.requested_model:
+            tools = [tool for tool in tools if tool.name != "switch_model"]
         res = await ctx.llm.call_tool(self.build_messages(state, ctx), tools, agent_name=self.name, multi=True)
         changed = False
         for call in res.calls:

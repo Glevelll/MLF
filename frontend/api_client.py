@@ -12,26 +12,41 @@ API_URL = os.environ.get("MLF_API_URL", "http://127.0.0.1:8000")
 
 
 class ApiError(RuntimeError):
-    pass
+    def __init__(self, message: str, status: int | None = None) -> None:
+        super().__init__(message)
+        self.status = status
 
 
 class ApiClient:
     def __init__(self, base_url: str = API_URL, token: str | None = None, timeout: float = 300) -> None:
         self.base_url = base_url.rstrip("/")
         self.token = token
-        self.http = httpx.Client(base_url=self.base_url, timeout=timeout)
+        self.timeout = timeout
+        self.trust_env = httpx.URL(self.base_url).host not in {"localhost", "127.0.0.1", "::1", "app"}
 
     def _h(self) -> dict[str, str]:
         return {"Authorization": f"Bearer {self.token}"} if self.token else {}
 
     def _req(self, method: str, url: str, **kw) -> Any:
-        r = self.http.request(method, url, headers=self._h(), **kw)
+        try:
+            with httpx.Client(base_url=self.base_url, timeout=self.timeout, trust_env=self.trust_env) as http:
+                r = http.request(method, url, headers=self._h(), **kw)
+        except httpx.TimeoutException as exc:
+            raise ApiError("Сервер долго отвечает. Попробуйте ещё раз.") from exc
+        except httpx.RequestError as exc:
+            raise ApiError("Не удалось подключиться к серверу. Проверьте, что MLF запущен.") from exc
         if r.status_code >= 400:
             try:
-                detail = r.json().get("detail", r.text)
-            except ValueError:
-                detail = r.text
-            raise ApiError(f"{r.status_code}: {detail}")
+                detail = r.json().get("detail")
+            except (ValueError, AttributeError):
+                detail = None
+            if r.status_code >= 500:
+                detail = "На сервере произошла ошибка. Попробуйте ещё раз."
+            elif not isinstance(detail, str):
+                detail = {401: "Войдите в систему.", 403: "Недостаточно прав.",
+                          413: "Файл больше 50 МБ.", 422: "Проверьте значения в форме."}.get(
+                              r.status_code, "Не удалось выполнить запрос.")
+            raise ApiError(detail, r.status_code)
         ctype = r.headers.get("content-type", "")
         return r.json() if "json" in ctype else r.content
 
@@ -48,6 +63,9 @@ class ApiClient:
         return self._req("GET", "/auth/me")
 
     # --- forecast
+    def agent_models(self) -> dict:
+        return self._req("GET", "/api/v1/forecast/agent-models")
+
     def create_forecast(self, file_path: str | None = None, **params: Any) -> dict:
         data = {k: str(v) for k, v in params.items() if v not in (None, "")}
         if file_path:
@@ -63,6 +81,10 @@ class ApiClient:
 
     def result(self, task_id: str, preview: int = 50) -> dict:
         return self._req("GET", f"/api/v1/forecast/{task_id}/result", params={"preview": preview})
+
+    def input_data(self, task_id: str, subset: str, offset: int, limit: int) -> dict:
+        return self._req("GET", f"/api/v1/forecast/{task_id}/data",
+                         params={"subset": subset, "offset": offset, "limit": limit})
 
     def reasoning(self, task_id: str) -> dict:
         return self._req("GET", f"/api/v1/forecast/{task_id}/reasoning")
@@ -95,6 +117,12 @@ class ApiClient:
             params["sample_size"] = sample_size
         return self._req("GET", "/api/v1/evaluate/compare", params=params)
 
+    def evaluation_history(self) -> dict:
+        return self._req("GET", "/api/v1/evaluate/history")
+
+    def saved_comparison(self, comparison_id: int) -> dict:
+        return self._req("GET", f"/api/v1/evaluate/compare/{comparison_id}")
+
     def batch(self, **params: Any) -> dict:
         return self._req("POST", "/api/v1/evaluate/batch", json=params)
 
@@ -113,3 +141,6 @@ class ApiClient:
 
     def kb_stats(self) -> dict:
         return self._req("GET", "/api/v1/kb/stats")
+
+    def kb_records(self, kind: str, offset: int, limit: int) -> dict:
+        return self._req("GET", "/api/v1/kb/records", params={"kind": kind, "offset": offset, "limit": limit})

@@ -36,6 +36,35 @@ async def compare(models: str = Query("fit_logistic_regression,fit_random_forest
     return await jobs.compare_models_task(names, sample_size, dataset, target, binarize_threshold)
 
 
+@router.get("/history")
+async def evaluation_history(limit: int = Query(20, ge=1, le=50), user: User = Depends(get_current_user),
+                             session: AsyncSession = Depends(get_session)) -> dict:
+    comparisons = (await session.execute(
+        select(ModelComparison.id, ModelComparison.sample_size, ModelComparison.winner, ModelComparison.created_at)
+        .order_by(ModelComparison.created_at.desc(), ModelComparison.id.desc()).limit(limit)
+    )).all()
+    batches = (await session.execute(
+        select(Task.id, Task.params, Task.status, Task.created_at)
+        .where(Task.task_type == "evaluation", Task.owner_id == user.id)
+        .order_by(Task.created_at.desc(), Task.id.desc()).limit(limit)
+    )).all()
+    return {
+        "comparisons": [{"id": row.id, "sample_size": row.sample_size, "winner": row.winner,
+                         "created_at": row.created_at.isoformat()} for row in comparisons],
+        "batches": [{"id": row.id, "params": row.params, "status": row.status,
+                     "created_at": row.created_at.isoformat()} for row in batches],
+    }
+
+
+@router.get("/compare/{comparison_id}")
+async def saved_comparison(comparison_id: int, _: User = Depends(get_current_user),
+                           session: AsyncSession = Depends(get_session)) -> dict:
+    comparison = await session.get(ModelComparison, comparison_id)
+    if comparison is None:
+        raise HTTPException(404, "сравнение не найдено")
+    return {**comparison.results_json, "comparison_id": comparison.id}
+
+
 @router.post("/batch", response_model=TaskAccepted, status_code=status.HTTP_202_ACCEPTED)
 async def batch(req: BatchEvalRequest, user: User = Depends(get_current_user),
                 session: AsyncSession = Depends(get_session)) -> TaskAccepted:

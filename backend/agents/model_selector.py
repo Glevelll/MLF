@@ -72,11 +72,12 @@ class ModelSelector(Agent):
 
     async def choose(self, state: ForecastState, ctx: AgentContext, tools: list[Tool]) -> tuple[str, dict, str]:
         names = {t.name for t in tools}
-        if state.forced_model:
-            if state.forced_model not in names:
-                raise ValueError(f"модель {state.forced_model} недоступна для задачи {state.problem_type}")
-            params = state.model_params if state.model_type == state.forced_model else {}
-            return state.forced_model, params or {}, "forced"
+        chosen = state.requested_model or state.forced_model
+        if chosen:
+            if chosen not in names:
+                raise ValueError(f"модель {chosen} недоступна для задачи {state.problem_type}")
+            params = state.model_params if state.model_type == chosen else {}
+            return chosen, params or {}, "forced"
         if state.model_type and state.iteration > 0 and state.model_type in names:
             return state.model_type, state.model_params or {}, "carried"
         rag = await self.retrieve(state, ctx)

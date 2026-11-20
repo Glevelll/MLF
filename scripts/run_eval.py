@@ -26,9 +26,8 @@ warnings.filterwarnings("ignore")
 import pandas as pd  # noqa: E402
 
 from backend.core.config import get_settings  # noqa: E402
-from backend.evaluation.runner import MODES, evaluate_spec, summarize  # noqa: E402
+from backend.evaluation.runner import MODES, build_evaluation_retriever, evaluate_spec, summarize  # noqa: E402
 from backend.evaluation.specs import DatasetSpec, make_specs  # noqa: E402
-from backend.retrieval.index_manager import get_retriever  # noqa: E402
 
 log = logging.getLogger("run_eval")
 
@@ -57,7 +56,10 @@ def load_specs(n: int, seed: int) -> list[DatasetSpec]:
 def markdown(summary: dict, args) -> str:
     lines = [f"# Отчёт run_eval ({time.strftime('%Y-%m-%d %H:%M')})", "",
              f"Наборов: {args.num_series}; режимы: {', '.join(args.modes)}; доли данных: {args.data_fractions}; "
-             f"holdout: {args.holdouts}", ""]
+             f"holdout: {args.holdouts}", "",
+             f"Успешных запусков — {summary['successful_runs']}. Запусков с ошибками — {summary['errors']}.", ""]
+    if summary["errors"]:
+        lines += ["В таблицы вошли успешные запуски. Ошибки и соответствующие наборы указаны в `rows.csv`.", ""]
     g = pd.DataFrame(summary["groups"])
     if not g.empty:
         for ptype, gg in g.groupby("problem_type"):
@@ -92,9 +94,11 @@ async def main_async(args) -> Path:
         lg = logging.getLogger(name)
         lg.addHandler(fh)
         lg.setLevel(logging.INFO)
-    retriever = get_retriever()
-    log.info("start: %s; RAG docs=%d; LLM=%s", vars(args), retriever.size, settings.llm_provider)
     specs = load_specs(args.num_series, args.seed)
+    needs_rag = any(mode in {"+rag", "+agents"} for mode in args.modes)
+    retriever = build_evaluation_retriever(specs, settings) if needs_rag else None
+    rag_docs = retriever.size if retriever is not None else 0
+    log.info("start: %s; RAG docs=%d; LLM=%s", vars(args), rag_docs, settings.llm_provider)
     rows, cache, data_warnings = [], {}, []
     t0 = time.time()
     for i, spec in enumerate(specs, 1):
@@ -113,7 +117,8 @@ async def main_async(args) -> Path:
         log.warning(w)
     summary = summarize(rows)
     summary["data_warnings"] = data_warnings
-    summary["config"] = {**vars(args), "llm_provider": settings.llm_provider, "rag_docs": retriever.size,
+    summary["config"] = {**vars(args), "llm_provider": settings.llm_provider, "rag_docs": rag_docs,
+                         "uci_split": "student_groups", "rag_source": "independent_synthetic_cases",
                          "elapsed_s": round(time.time() - t0, 1)}
     pd.DataFrame([{k: v for k, v in r.items() if k != "_loss"} for r in rows]).to_csv(out / "rows.csv", index=False)
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, default=str), encoding="utf-8")

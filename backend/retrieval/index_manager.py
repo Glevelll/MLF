@@ -75,9 +75,9 @@ def build_retriever(cases: list[dict[str, Any]], glossary: list[dict[str, Any]] 
         gindex.add([f"g{i}" for i in range(len(glossary))],
                    [f"{g['term']}. {g['definition']}" for g in glossary],
                    [{"term": g["term"], "definition": g["definition"], "category": g.get("category")} for g in glossary])
-    set_embedder(embedder)
     retriever = HybridRetriever(bm25, vindex, embedder, gindex)
     if persist:
+        set_embedder(embedder)
         d = settings.index_dir
         d.mkdir(parents=True, exist_ok=True)
         embedder.save(d / "embedder.joblib")

@@ -28,22 +28,25 @@ async def resume_task(task_id: str, resolution: dict[str, Any]) -> None:
 
 async def evaluate_model_task(job_id: str, params: dict[str, Any]) -> dict[str, Any]:
     """Пакетная оценка режимов на наборе спецификаций (как scripts/run_eval.py, но в фоне)."""
-    from backend.evaluation.runner import evaluate_spec, summarize
+    from backend.evaluation.runner import build_evaluation_retriever, evaluate_spec, summarize
     from backend.evaluation.specs import make_specs
-    from backend.retrieval.index_manager import get_retriever
 
     async with session_scope() as s:
         job = await s.get(Task, job_id)
         job.status = "running"
     t0 = time.perf_counter()
     try:
+        settings = get_settings()
         specs = make_specs(int(params.get("num_datasets", 5)), "eval", int(params.get("seed", 0)))
+        modes = params.get("modes", ["baseline", "+rag"])
+        needs_rag = any(mode in {"+rag", "+agents"} for mode in modes)
+        retriever = await asyncio.to_thread(build_evaluation_retriever, specs, settings) if needs_rag else None
         rows: list[dict[str, Any]] = []
         cache: dict = {}
         for spec in specs:
-            rows += await evaluate_spec(spec, modes=params.get("modes", ["baseline", "+rag"]),
+            rows += await evaluate_spec(spec, modes=modes,
                                         fractions=params.get("fractions", [1.0]),
-                                        holdouts=params.get("holdouts", [0.2]), retriever=get_retriever(),
+                                        holdouts=params.get("holdouts", [0.2]), retriever=retriever,
                                         uci_cache=cache)
         summary = summarize(rows)
         elapsed = time.perf_counter() - t0
@@ -79,7 +82,9 @@ async def compare_models_task(models: list[str], sample_size: int | None, datase
         row = ModelComparison(models_compared=models, sample_size=res["sample_size"], results_json=res,
                               winner=res["winner"])
         s.add(row)
-    return res
+        await s.flush()
+        comparison_id = row.id
+    return {**res, "comparison_id": comparison_id}
 
 
 async def reindex_rag_task() -> dict[str, int]:

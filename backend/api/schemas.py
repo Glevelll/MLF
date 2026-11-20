@@ -41,6 +41,10 @@ class TaskStatusOut(BaseModel):
     task_type: str
     created_at: datetime
     updated_at: datetime
+    source: str | None = None
+    target_column: str | None = None
+    agent_provider: str | None = None
+    agent_model: str | None = None
     iteration: int | None = None
     hitl_reason: str | None = None
     error: str | None = None

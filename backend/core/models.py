@@ -46,6 +46,8 @@ class ForecastState(BaseModel):
     binarize_threshold: float | None = None
     positive_label: str | None = None
     id_column: str | None = None
+    agent_provider: Literal["mock", "ollama"] | None = None
+    agent_model: str | None = None
 
     # ссылки на артефакты
     data_path: str | None = None
@@ -62,6 +64,7 @@ class ForecastState(BaseModel):
     decision_threshold: float = 0.5
     model_type: str | None = None
     model_params: dict[str, Any] | None = None
+    requested_model: str | None = None
     forced_model: str | None = None
     selection_mode: str | None = None  # native | text | default | forced | carried
 

@@ -34,15 +34,6 @@ python -m venv .venv
 .venv\Scripts\pip install -e ".[ui,dev]"
 ```
 ```bash
-.venv\Scripts\python scripts/download_data.py
-```
-```bash
-.venv\Scripts\python scripts/generate_glossary.py
-```
-```bash
-.venv\Scripts\python scripts/generate_knowledge_base.py --datasets 300 --n-jobs 8
-```
-```bash
 .venv\Scripts\python scripts/import_data.py
 ```
 ```bash
@@ -51,28 +42,39 @@ python -m venv .venv
 ```bash
 .venv\Scripts\python run.py
 ```
-```bash
+В отдельном окне PowerShell из папки проекта запустите интерфейс.
+
+```powershell
+$env:NO_PROXY = '127.0.0.1,localhost'
 .venv\Scripts\python -m frontend.app
 ```
 
 - API и Swagger: http://127.0.0.1:8000/docs
 - UI: http://127.0.0.1:7860 (демо-вход `demo` / `demo12345`, только для локальной разработки)
-- Генерация базы знаний занимает около 8 минут на 10 ядрах. Остальные шаги — секунды.
+- Данные UCI, база знаний и справочник уже находятся в `data/`. Для пересоздания базы используйте `scripts/generate_glossary.py` и `scripts/generate_knowledge_base.py --datasets 300`, затем повторите импорт.
 
 ### Подключение настоящей LLM (Ollama)
 
-```bash
-ollama pull qwen2.5:7b
+```powershell
+ollama list
+ollama run qwen2.5:1.5b 'Ответь одним словом: готово'
+ollama ps
 ```
 
 В `.env` (шаблон — `.env.example`):
 ```
 MLF_LLM_PROVIDER=ollama
-MLF_LLM_MODEL=qwen2.5:7b
+MLF_LLM_MODEL=qwen2.5:1.5b
 MLF_LLM_FALLBACK_PROVIDERS=["mock"]
 ```
-Также поддерживаются `hf` (transformers, `pip install .[hf]`), `openai` (OpenAI / Groq / OpenRouter / vLLM через
-`MLF_OPENAI_BASE_URL`) и `anthropic`. Если провайдер недоступен, менеджер переходит к следующему в цепочке.
+
+Перезапустите локальный API после правки `.env`. Если модели ещё нет, `ollama run` скачает её при первом запуске.
+Столбец `PROCESSOR` в `ollama ps` показывает, где загружена модель. На проверенном ноутбуке `qwen2.5:1.5b`
+загружалась целиком на RTX 3050. Классификация и регрессия обучаются на CPU.
+Запасной локальный провайдер `hf` использует Transformers. Для него установите `pip install ".[hf]"` и задайте
+`MLF_LLM_PROVIDER=hf`, `MLF_HF_MODEL=Qwen/Qwen2.5-0.5B-Instruct`. При первом запуске потребуются веса модели.
+Также есть `openai` (OpenAI / Groq / OpenRouter / vLLM через `MLF_OPENAI_BASE_URL`) и `anthropic`.
+Если провайдер недоступен, менеджер переходит к следующему в цепочке.
 
 `mock` — детерминированная политика: она читает роль агента и JSON-контекст из промпта и возвращает
 tool calls / JSON как настоящая модель. С ней весь пайплайн и тесты работают без GPU и сети.
@@ -82,16 +84,23 @@ tool calls / JSON как настоящая модель. С ней весь п�
 ```bash
 docker compose up -d --build
 ```
-```bash
-docker compose run --rm app sh -c "python scripts/download_data.py && python scripts/generate_glossary.py && python scripts/generate_knowledge_base.py && python scripts/import_data.py"
-```
+Сервис `init` загрузит готовую базу знаний и построит индекс Qdrant. После него запустятся API, фоновые задачи и интерфейс.
+
+В форме «Прогнозы» поле «Кто помогает агентам» переключает Mock и Ollama для конкретного задания. Список Qwen берётся
+из подключённой Ollama. На Docker Desktop можно использовать уже установленные на компьютере модели, задав
+`MLF_OLLAMA_URL=http://host.docker.internal:11434` в `.env` и пересоздав `app` и `worker`. При явном выборе Qwen ошибка
+подключения отображается в задаче. Поле «Алгоритм прогноза» позволяет выбрать совместимую табличную модель вручную.
+В режиме «Агенты выберут» алгоритм подбирает ModelSelector.
+
+При `MLF_LLM_PROVIDER=ollama` загрузите модель, выбранную в `.env`. Для запуска без этой загрузки задайте `MLF_LLM_PROVIDER=mock`.
+
 ```bash
 docker compose exec ollama ollama pull qwen2.5:7b
 ```
 
 Сервисы: `app` (FastAPI), `worker` и `beat` (Celery: прогнозы, оценка, ночная переиндексация RAG, очистка кэша),
 `frontend` (Gradio), `db` (PostgreSQL), `redis`, `qdrant`, `ollama`, `nginx` (проксирование, gzip, security headers;
-порт 80). Перед запуском задайте `MLF_JWT_SECRET` в `.env`. Схема БД: `alembic upgrade head`
+порт 80, меняется через `MLF_HTTP_PORT`). Перед запуском задайте `MLF_JWT_SECRET` в `.env`. Схема БД: `alembic upgrade head`
 (при старте таблицы также создаются автоматически).
 
 ## Использование API
@@ -186,13 +195,17 @@ recall группы риска, порог качества (ROC-AUC 0.7 / R² 0
 Результаты сохраняются в `results/eval_*/` (`rows.csv`, `summary.json`, `report.md`), лог — в `eval.log`,
 сводки — в БД. Анализ результатов — в [REPORT.md](REPORT.md).
 
+Для UCI записи одного ученика группируются по правилам сопоставления из исходного набора. В кросс-валидации и при выделении теста группа целиком попадает в одну часть. У `uci_both` 1 044 строки по двум предметам, часть учеников встречается дважды. Фактическая доля отложенных строк может немного отличаться от заданной, поскольку деление идёт по группам.
+
+Пакетная оценка через скрипт и API строит отдельный RAG-индекс из синтетических кейсов выбора модели. Она исключает кейсы с seed, использованным в проверяемом синтетическом наборе. Для режима `baseline` индекс не требуется. В обычном прогнозе используется рабочая база знаний. В отчёте `+agents` поле `llm_models_by_run` показывает, какие провайдеры и модели ответили на самом деле.
+
 ## Тесты
 
 ```bash
 .venv\Scripts\python -m pytest --cov=backend
 ```
 
-84 теста, покрытие **93%**. Покрыты: юнит-тесты каждого агента (с мок-LLM), Tool Calling и fallback (3 попытки →
+87 тестов, покрытие **92,14%** в проверенном запуске на Windows. Покрыты: юнит-тесты каждого агента (с мок-LLM), Tool Calling и fallback (3 попытки →
 правило по умолчанию), провайдеры Ollama / OpenAI / Anthropic через `respx`, предобработка таблиц и рядов,
 BM25 / вектор / RRF / Qdrant (local mode), интеграционные тесты API (полный цикл, HITL, роли, ошибки),
 оценка и статистика, скрипты. CI — `.github/workflows/ci.yml` (ruff, pytest с порогом покрытия 70%, сборка Docker).

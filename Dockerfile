@@ -8,8 +8,9 @@ COPY frontend ./frontend
 RUN pip install --upgrade pip && pip install ".[ui]"
 COPY scripts ./scripts
 COPY run.py alembic.ini ./
-RUN useradd -m app && mkdir -p /app/data && chown -R app /app
+COPY data/kb ./data/kb
+COPY data/raw/uci_student ./data/raw/uci_student
+RUN useradd -m app && chown -R app /app
 USER app
 EXPOSE 8000 7860
-HEALTHCHECK --interval=30s --timeout=5s CMD curl -fs http://localhost:8000/healthz || exit 1
 CMD ["python", "run.py", "--host", "0.0.0.0", "--port", "8000"]

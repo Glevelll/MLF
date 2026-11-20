@@ -110,6 +110,8 @@ class Supervisor:
 
                 if action == "choose_model":
                     state.forced_model = resolution["model_type"]
+                    if state.requested_model:
+                        state.requested_model = state.forced_model
                     if resolution.get("params"):
                         state.model_type = resolution["model_type"]
                         state.model_params = resolution["params"]

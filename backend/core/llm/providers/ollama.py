@@ -10,6 +10,20 @@ import httpx
 from backend.core.llm.base import LLMError, LLMProvider, LLMResponse, Message, ToolCall
 
 
+async def installed_qwen_models(base_url: str) -> list[str]:
+    try:
+        async with httpx.AsyncClient(timeout=4, trust_env=False) as client:
+            response = await client.get(f"{base_url.rstrip('/')}/api/tags")
+            response.raise_for_status()
+            models = response.json()["models"]
+    except (httpx.HTTPError, ValueError, KeyError) as exc:
+        raise LLMError("Ollama недоступна. Откройте Ollama на компьютере и попробуйте ещё раз.") from exc
+    return sorted({
+        name for model in models if (name := model.get("name", "")).startswith("qwen")
+        and "cloud" not in name and "embed" not in name and model.get("size", 0) > 0
+    })
+
+
 class OllamaProvider(LLMProvider):
     name = "ollama"
 
@@ -17,7 +31,7 @@ class OllamaProvider(LLMProvider):
                  client: httpx.AsyncClient | None = None) -> None:
         super().__init__(model)
         self.base_url = base_url.rstrip("/")
-        self.client = client or httpx.AsyncClient(timeout=timeout)
+        self.client = client or httpx.AsyncClient(timeout=timeout, trust_env=False)
 
     @staticmethod
     def _msg(m: Message) -> dict[str, Any]:

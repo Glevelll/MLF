@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import time
 import uuid
 from collections import Counter
@@ -9,7 +10,6 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import KFold, StratifiedKFold, train_test_split
 
 from backend.core.config import Settings, get_settings
 from backend.core.llm.tools import DEFAULT_MODEL, ToolRegistry, default_registry
@@ -19,24 +19,45 @@ from backend.data.knowledge_base import describe_dataset_case
 from backend.evaluation.specs import DatasetSpec, build_dataset, prepare_kwargs
 from backend.evaluation.stats import compare_paired, diebold_mariano
 from backend.retrieval.hybrid_retriever import HybridRetriever
-from backend.tabular.preprocessing import PreparedData, prepare_dataframe
-from backend.tabular.training import make_pipeline
+from backend.retrieval.index_manager import build_retriever
+from backend.tabular.preprocessing import STUDENT_GROUP, PreparedData, prepare_dataframe
+from backend.tabular.training import cv_splits, holdout_indices, make_pipeline
 from backend.utils.logging import get_logger
 
 log = get_logger("eval")
 MODES = ["baseline", "+rag", "+agents", "+foundation"]
 
 
+def build_evaluation_retriever(specs: list[DatasetSpec], settings: Settings) -> HybridRetriever:
+    """Independent model-selection cases for benchmark runs on UCI and synthetic data."""
+    path = settings.kb_dir / "dataset_cases.jsonl"
+    if not path.exists():
+        raise FileNotFoundError(f"{path} не найден — запустите scripts/generate_knowledge_base.py")
+    eval_seeds = {spec.seed for spec in specs if spec.source == "synthetic"}
+    cases = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        case = json.loads(line)
+        spec = case.get("meta", {}).get("spec", {})
+        if (case.get("kind") == "dataset_case" and spec.get("source") == "synthetic"
+                and isinstance(spec.get("seed"), int) and spec["seed"] not in eval_seeds):
+            cases.append(case)
+    if not cases:
+        raise ValueError("Для оценки RAG нужны независимые синтетические кейсы выбора модели")
+    local = settings.model_copy(update={"vector_backend": "memory"})
+    return build_retriever(cases, settings=local, persist=False)
+
+
 def subset(data: PreparedData, idx: np.ndarray) -> PreparedData:
     return PreparedData(X=data.X.iloc[idx].reset_index(drop=True), y=data.y.iloc[idx].reset_index(drop=True),
                         problem_type=data.problem_type, numeric_cols=data.numeric_cols,
-                        categorical_cols=data.categorical_cols, ids=data.ids.iloc[idx].reset_index(drop=True))
+                        categorical_cols=data.categorical_cols, ids=data.ids.iloc[idx].reset_index(drop=True),
+                        groups=data.groups.iloc[idx].reset_index(drop=True) if data.groups is not None else None)
 
 
 def split_holdout(data: PreparedData, holdout: float, seed: int) -> tuple[PreparedData, PreparedData]:
-    idx = np.arange(len(data.X))
-    strat = data.y if data.problem_type == "classification" else None
-    tr, te = train_test_split(idx, test_size=holdout, random_state=seed, stratify=strat)
+    tr, te = holdout_indices(data, holdout, seed)
     return subset(data, tr), subset(data, te)
 
 
@@ -44,9 +65,7 @@ def subsample(data: PreparedData, frac: float, seed: int) -> PreparedData:
     """Стратифицированная подвыборка (сохраняет пропорции классов)."""
     if frac >= 1.0:
         return data
-    idx = np.arange(len(data.X))
-    strat = data.y if data.problem_type == "classification" else None
-    keep, _ = train_test_split(idx, train_size=frac, random_state=seed, stratify=strat)
+    keep, _ = holdout_indices(data, frac, seed, test=False)
     return subset(data, np.sort(keep))
 
 
@@ -103,6 +122,8 @@ async def agents_predict(train: PreparedData, test: PreparedData, settings: Sett
     store = ArtifactStore()
     df = pd.concat([train.X.assign(__y=train.y.values, __rid=[f"tr{i}" for i in range(len(train.X))]),
                     test.X.assign(__y=np.nan, __rid=[f"te{i}" for i in range(len(test.X))])], ignore_index=True)
+    if train.groups is not None and test.groups is not None:
+        df[STUDENT_GROUP] = pd.concat([train.groups, test.groups], ignore_index=True)
     path = store.path(task_id, "input.parquet")
     df.to_parquet(path, index=False)
     rec = MemoryRecorder()
@@ -121,8 +142,10 @@ async def agents_predict(train: PreparedData, test: PreparedData, settings: Sett
     pred = pred[pred["split"] == "new"].set_index("id")
     col = "risk_probability" if train.problem_type == "classification" else "predicted_score"
     p = pred.loc[[f"te{i}" for i in range(len(test.X))], col].values
+    llm_models = sorted({f"{call['provider']}:{call['model_name']}" for call in rec.llm_calls if call["status"] == "ok"})
     agent = {"iterations": state.iteration, "hitl": hitl, "time_s": round(elapsed, 3), "tokens": rec_tokens(rec),
              "llm_calls": len(rec.llm_calls), "model": state.model_type, "selection_mode": state.selection_mode,
+             "llm_models": llm_models,
              "editor_actions": len(state.editor_actions), "critic_score": state.critic_score,
              "threshold": state.decision_threshold}
     return p, agent
@@ -201,9 +224,10 @@ async def evaluate_spec(spec: DatasetSpec, *, modes: list[str], fractions: list[
 
 def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     df = pd.DataFrame([r for r in rows if "error" not in r])
+    out: dict[str, Any] = {"groups": [], "tests": [], "dm": [], "agents": {},
+                           "successful_runs": len(df), "errors": len(rows) - len(df)}
     if df.empty:
-        return {"groups": [], "tests": [], "agents": {}}
-    out: dict[str, Any] = {"groups": [], "tests": [], "dm": [], "agents": {}, "errors": sum("error" in r for r in rows)}
+        return out
     for ptype, g in df.groupby("problem_type"):
         pm = f"m_{primary_metric(ptype)}"
         metric_cols = [c for c in g.columns if c.startswith("m_")]
@@ -241,6 +265,7 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "avg_tokens": float(ag["a_tokens"].mean()), "avg_llm_calls": float(ag["a_llm_calls"].mean()),
             "selection_modes": ag["a_selection_mode"].value_counts().to_dict(),
             "models": ag["model"].value_counts().to_dict(),
+            "llm_models_by_run": ag["a_llm_models"].map(lambda models: ", ".join(models) or "нет").value_counts().to_dict(),
         })
     return out
 
@@ -253,11 +278,9 @@ def compare_models(data: PreparedData, models: list[str], sample_size: int | Non
         data = subsample(data, sample_size / len(data.X), seed)
     ptype = data.problem_type
     pm = primary_metric(ptype)
-    splitter = (StratifiedKFold(folds, shuffle=True, random_state=seed) if ptype == "classification"
-                else KFold(folds, shuffle=True, random_state=seed))
     fold_scores: dict[str, list[float]] = {m: [] for m in models}
     oof: dict[str, np.ndarray] = {m: np.zeros(len(data.X)) for m in models}
-    for tr, te in splitter.split(data.X, data.y if ptype == "classification" else None):
+    for tr, te in cv_splits(data, folds, seed):
         trd, ted = subset(data, tr), subset(data, te)
         for m in models:
             p = fit_predict(registry, m, {}, trd, ted, seed)

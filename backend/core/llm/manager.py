@@ -39,7 +39,8 @@ class ToolCallResult(BaseModel):
 
 class LLMManager:
     def __init__(self, providers: list[LLMProvider], recorder: Recorder | None = None, cache: Cache | None = None,
-                 max_retries: int = 2, backoff: float = 0.5, request_id: str | None = None) -> None:
+                 max_retries: int = 2, backoff: float = 0.5, request_id: str | None = None,
+                 *, require_response: bool = False) -> None:
         if not providers:
             raise ValueError("нужен хотя бы один провайдер")
         self.providers = providers
@@ -48,6 +49,7 @@ class LLMManager:
         self.max_retries = max_retries
         self.backoff = backoff
         self.request_id = request_id
+        self.require_response = require_response
 
     @property
     def model_name(self) -> str:
@@ -127,6 +129,8 @@ class LLMManager:
             try:
                 resp = await self.chat(msgs, agent_name=agent_name, tools=schemas, use_cache=attempt == 1)
             except LLMError as e:
+                if self.require_response:
+                    raise
                 errors.append(f"attempt {attempt}: {e}")
                 continue
             mode, calls = "native", resp.tool_calls
@@ -169,6 +173,8 @@ class LLMManager:
             try:
                 resp = await self.chat(msgs, agent_name=agent_name, json_mode=True, use_cache=attempt == 1)
             except LLMError:
+                if self.require_response:
+                    raise
                 continue
             data = extract_json(resp.content)
             if isinstance(data, dict):
@@ -214,8 +220,8 @@ def make_provider(name: str, settings: Settings) -> LLMProvider:
 
 
 def build_llm_manager(settings: Settings, recorder: Recorder | None = None, cache: Cache | None = None,
-                      request_id: str | None = None) -> LLMManager:
+                      request_id: str | None = None, *, require_response: bool = False) -> LLMManager:
     names = [settings.llm_provider] + [n for n in settings.llm_fallback_providers if n != settings.llm_provider]
     providers = [make_provider(n, settings) for n in names]
     return LLMManager(providers, recorder=recorder, cache=cache if settings.llm_cache_enabled else None,
-                      max_retries=settings.llm_max_retries, request_id=request_id)
+                      max_retries=settings.llm_max_retries, request_id=request_id, require_response=require_response)

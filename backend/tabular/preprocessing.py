@@ -14,6 +14,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 TARGET = "__target__"
 ROW_ID = "__id__"
+STUDENT_GROUP = "__student_group__"
 
 
 @dataclass
@@ -27,6 +28,7 @@ class PreparedData:
     X_predict: pd.DataFrame | None = None
     predict_ids: pd.Series | None = None
     info: dict[str, Any] = field(default_factory=dict)
+    groups: pd.Series | None = None
 
     @property
     def feature_columns(self) -> list[str]:
@@ -166,6 +168,8 @@ def eda_summary(X: pd.DataFrame, y: pd.Series, problem_type: str, numeric_cols: 
 
 def save_prepared(data: PreparedData, path: str | Path) -> None:
     frames = [data.X.assign(**{TARGET: data.y.values, ROW_ID: data.ids.values})]
+    if data.groups is not None:
+        frames[0][STUDENT_GROUP] = data.groups.values
     if data.X_predict is not None and len(data.X_predict):
         frames.append(data.X_predict.assign(**{TARGET: np.nan, ROW_ID: data.predict_ids.values}))
     df = pd.concat(frames, ignore_index=True)
@@ -186,7 +190,8 @@ def load_prepared(path: str | Path, numeric_cols: list[str], categorical_cols: l
     Xp = to_object_categoricals(unl[cols], categorical_cols) if len(unl) else None
     return PreparedData(X=X, y=y, problem_type=problem_type, numeric_cols=list(numeric_cols),
                         categorical_cols=list(categorical_cols), ids=lab[ROW_ID],
-                        X_predict=Xp, predict_ids=unl[ROW_ID] if len(unl) else None)
+                        X_predict=Xp, predict_ids=unl[ROW_ID] if len(unl) else None,
+                        groups=lab.get(STUDENT_GROUP))
 
 
 def prepare_dataframe(df: pd.DataFrame, target: str, problem_type: str = "auto",
@@ -195,6 +200,7 @@ def prepare_dataframe(df: pd.DataFrame, target: str, problem_type: str = "auto",
     if target not in df.columns:
         raise ValueError(f"целевая колонка '{target}' отсутствует; есть: {list(df.columns)[:30]}")
     df = coerce_types(df)
+    groups = df.pop(STUDENT_GROUP) if STUDENT_GROUP in df else None
     id_cols = detect_id_columns(df.drop(columns=[target]), id_column)
     ids = df[id_cols[0]].astype(str) if id_cols else pd.Series([f"row_{i}" for i in range(len(df))])
     y_all, ptype, enc = prepare_target(df[target], problem_type, binarize_threshold, positive_label)
@@ -212,5 +218,6 @@ def prepare_dataframe(df: pd.DataFrame, target: str, problem_type: str = "auto",
         X_predict=X_all[~lab].reset_index(drop=True) if (~lab).any() else None,
         predict_ids=ids[~lab].reset_index(drop=True) if (~lab).any() else None,
         info={"target_encoding": enc, "id_columns": id_cols, "dropped_constant": const},
+        groups=groups[lab].reset_index(drop=True) if groups is not None else None,
     )
     return data
